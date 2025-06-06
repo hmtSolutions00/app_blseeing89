@@ -1,0 +1,11 @@
+.lang-option {
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
+.lang-option.active {
+    font-weight: bold;
+    opacity: 1;
+    color: #fff; /* atau sesuaikan warna */
+}

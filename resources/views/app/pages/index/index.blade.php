@@ -7,7 +7,6 @@
       @include('app.pages.index.categories')
       {{-- End Kategori Produk dan kayanan kami --}}
       @include('app.pages.index.products')
-
 @endsection
 
 @section('custom_js')

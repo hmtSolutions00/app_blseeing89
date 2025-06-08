@@ -1,5 +1,4 @@
-@extends('app.admin.layout.admin')
-
+@extends('panel.layout.admin')
 @section('content')
     <div class="dashboard" data-x="dashboard" data-x-toggle="-is-sidebar-open">
         <div class="dashboard__main">
@@ -7,8 +6,8 @@
                 <div class="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
                     <div class="col-auto">
 
-                        <h1 class="text-30 lh-14 fw-600">Booking History</h1>
-                        <div class="text-15 text-light-1">Lorem ipsum dolor sit amet, consectetur.</div>
+                        <h1 class="text-30 lh-14 fw-600">Kelola Produk & Layanan</h1>
+                        <div class="text-15 text-light-1">Keloal Produk dan Layanan Blessing89 Tour & travel</div>
 
                     </div>
 
@@ -16,8 +15,6 @@
 
                     </div>
                 </div>
-
-
                 <div class="py-30 px-30 rounded-4 bg-white shadow-3">
                     <div class="tabs -underline-2 js-tabs">
                         <div class="tabs__controls row x-gap-40 y-gap-10 lg:x-gap-20 js-tabs-controls">

@@ -13,7 +13,7 @@
                          <img src="{{ url('assets/images/logo_kelae.png') }}" alt="logo icon">
                      </a>
                        {{-- Bahasa app --}}
-                       
+
                      <div class="col-auto">
                          <button class="d-flex items-center text-14 text-white gap-2 lang-toggle" id="langToggleButton">
                              <span class="lang-option active" data-lang="id">ID</span> |

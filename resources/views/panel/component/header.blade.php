@@ -2,7 +2,7 @@
     <div data-anim="fade" class="header__container px-30 sm:px-20">
         <div class="-left-side" style="text-align-last: center;">
             <a href="/kelola/produk" class="header-logo" data-x="header-logo" data-x-toggle="is-logo-dark">
-                <img src="{{ url('assets/images/logo_kelae.png') }}" alt="logo icon">
+                <img src="{{ url('assets/images/logo_kelae.png')}}" alt="logo icon">
             </a>
         </div>
 

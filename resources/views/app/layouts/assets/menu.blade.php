@@ -6,49 +6,49 @@
                   <div class="">
                     <button class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button is-tab-el-active" data-tab-target=".-tab-item-1">
                       <i class="icon-bed text-20 mr-10 sm:mr-5"></i>
-                      Hotel
+                      Home
                     </button>
                   </div>
 
                   <div class="">
                     <button class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button " data-tab-target=".-tab-item-2">
                       <i class="icon-destination text-20 mr-10 sm:mr-5"></i>
-                      Tour
+                      Product & Layanan
                     </button>
                   </div>
 
                   <div class="">
                     <button class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button " data-tab-target=".-tab-item-3">
                       <i class="icon-ski text-20 mr-10 sm:mr-5"></i>
-                      Activity
+                      Testimoni
                     </button>
                   </div>
 
                   <div class="">
                     <button class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button " data-tab-target=".-tab-item-4">
                       <i class="icon-home text-20 mr-10 sm:mr-5"></i>
-                      Holiday Rentals
+                      Galeri
                     </button>
                   </div>
 
                   <div class="">
                     <button class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button " data-tab-target=".-tab-item-5">
                       <i class="icon-car text-20 mr-10 sm:mr-5"></i>
-                      Car
+                      Tentang Kami
                     </button>
                   </div>
 
                   <div class="">
                     <button class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button " data-tab-target=".-tab-item-6">
                       <i class="icon-yatch text-20 mr-10 sm:mr-5"></i>
-                      Cruise
+                      Hubungi Kami
                     </button>
                   </div>
 
                   <div class="">
                     <button class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button " data-tab-target=".-tab-item-7">
                       <i class="icon-tickets text-20 mr-10 sm:mr-5"></i>
-                      Flights
+                      Panduan
                     </button>
                   </div>
 

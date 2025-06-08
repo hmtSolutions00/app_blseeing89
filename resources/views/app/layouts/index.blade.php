@@ -28,8 +28,8 @@
       {{-- Start Menu & carousel condition --}}
       
  
-    <section data-anim-wrap class="masthead -type-2 js-mouse-move-container">
-      <div class="masthead__bg bg-dark-3">
+    <section data-anim-wrap class="masthead -type-2 js-mouse-move-container bg-dark-3">
+      <div class="masthead__bg ">
         <img src="{{url('assets/img/masthead/2/bg.png')}}" alt="image">
       </div>
 
@@ -37,9 +37,11 @@
               <!-- menu -->
       @include('app.layouts.assets.menu')
       <!-- Carousel -->
-      @include('app.pages.index.carousel')
+     @include('app.pages.index.carousel')
+
    
       </div>
+        
     </section>
 
      {{-- END Start Menu & carousel condition --}}

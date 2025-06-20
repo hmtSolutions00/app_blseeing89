@@ -1,6 +1,5 @@
 @extends('app.admin.layout.admin')
 @section('content')
-    <div class="dashboard" data-x="dashboard" data-x-toggle="-is-sidebar-open">
         <div class="dashboard__main">
             <div class="dashboard__content bg-light-2">
                 <div class="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
@@ -2220,5 +2219,4 @@
 
             </div>
         </div>
-    </div>
 @endsection

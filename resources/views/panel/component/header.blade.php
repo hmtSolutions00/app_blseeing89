@@ -7,7 +7,7 @@
         </div>
 
         <div class="row justify-between items-center pl-60 lg:pl-20">
-            <div class="col-auto">
+            <div class="col-11">
                 <div class="d-flex items-center">
                     <button data-x-click="dashboard">
                         <i class="icon-menu-2 text-20"></i>
@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="col-auto">
+            <div class="col-1">
                 <div class="d-flex items-center">
                     <div class="pl-15">
                         <img src="/assets/img/avatars/3.png" alt="image" class="size-50 rounded-22 object-cover">

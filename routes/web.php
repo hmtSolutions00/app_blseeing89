@@ -2,18 +2,17 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('app.pages.index.index');
-});
+Route::get('/', [IndexController::class, 'index']);
+Route::get('/produk/kategori/{slug}', [IndexController::class, 'categoryProducts'])->name('frontend.products.byCategory');
 
 Route::get('/kelola/produk', function () {
     return view('app.admin.pages.data_produk.index');
 });
-
 
 
 // ROUTE UNTUK HALAMAN ADMIN MENGGUNAKAN PREFIX admin-
@@ -23,37 +22,43 @@ Route::prefix('admin-panel')->name('admin-panel.')->group(function () {
     // 1. Dashboard Admin
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    // 2. Rute untuk Produk
+    // Rute untuk AJAX, namanya akan menjadi 'admin-panel.get-subcategories'
+    Route::get('/get-subcategories/{categoryId}', [ProductController::class, 'getSubcategories'])->name('get-subcategories');
+
+    // 2. Grup Rute untuk Produk
     Route::prefix('products')->name('products.')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/create', [ProductController::class, 'create'])->name('create');
-        Route::post('/', [ProductController::class, 'store'])->name('store');   
+        Route::post('/', [ProductController::class, 'store'])->name('store');
+        Route::get('/{id}', [ProductController::class, 'show'])->name('show');
         Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [ProductController::class, 'update'])->name('update');
+        Route::put('/{product}', [ProductController::class, 'update'])->name('update');
         Route::delete('/{id}', [ProductController::class, 'destroy'])->name('destroy');
     });
 
     // 3. Rute untuk Kategori Produk
     // Anda juga bisa menggunakan Route::resource() untuk CRUD secara otomatis
     // Route::resource('categories', CategoryController::class);
-    Route::prefix('categories')->name('categories.')->group(function () {
-        Route::get('/', [CategoryController::class, 'index'])->name('index');
-        Route::get('/create', [CategoryController::class, 'create'])->name('create');
-        Route::post('/', [CategoryController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [CategoryController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [CategoryController::class, 'update'])->name('update');
-        Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('destroy');
-    });
+Route::prefix('categories')->name('categories.')->group(function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('index');
+    Route::get('/create', [CategoryController::class, 'create'])->name('create');
+    Route::post('/', [CategoryController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [CategoryController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [CategoryController::class, 'update'])->name('update');
+    Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+    Route::get('/{id}', [CategoryController::class, 'show'])->name('show'); // <--- tambahkan ini
+});
 
     // 4. Rute untuk Sub Kategori Produk
     Route::prefix('sub-categories')->name('sub_categories.')->group(function () {
-        Route::get('/', [SubCategoryController::class, 'index'])->name('index');
-        Route::get('/create', [SubCategoryController::class, 'create'])->name('create');
-        Route::post('/', [SubCategoryController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [SubCategoryController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [SubCategoryController::class, 'update'])->name('update');
-        Route::delete('/{id}', [SubCategoryController::class, 'destroy'])->name('destroy');
-    });
+    Route::get('/', [SubCategoryController::class, 'index'])->name('index');
+    Route::get('/create', [SubCategoryController::class, 'create'])->name('create');
+    Route::post('/', [SubCategoryController::class, 'store'])->name('store');
+    Route::get('/{id}', [SubCategoryController::class, 'show'])->name('show'); // ⬅️ Tambahkan ini
+    Route::get('/{id}/edit', [SubCategoryController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [SubCategoryController::class, 'update'])->name('update');
+    Route::delete('/{id}', [SubCategoryController::class, 'destroy'])->name('destroy');
+});
 
     // Tambahkan rute admin lainnya di sini...
 });

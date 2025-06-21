@@ -1,9 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- Mirrored from creativelayers.net/themes/gotrip-html/db-booking.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 26 May 2025 14:33:05 GMT -->
-
 <head>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
@@ -19,7 +15,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{url('assets/css/vendors.css')}}">
     <link rel="stylesheet" href="{{url('assets/css/main.css')}}">
-
+        @stack('custom_css')
     <title>Admin Blessing89</title>
 </head>
 
@@ -36,5 +32,6 @@
 
     <script src="{{url('assets/js/vendors.js')}}"></script>
     <script src="{{url('assets/js/main.js')}}"></script>
+    @stack('custom_js')
 </body>
 </html>

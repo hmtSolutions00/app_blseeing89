@@ -13,6 +13,7 @@
     <link rel="preconnect" href="../../../fonts.gstatic.com/index.html" crossorigin>
     <link href="../../../fonts.googleapis.com/css29b3e.css?family=Jost:wght@400;500;600&amp;display=swap"
         rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     {{-- End meta tags default for all --}}
     @include('app.layouts.assets.css')
 
@@ -25,30 +26,13 @@
     <main>
 
       {{-- Start Menu & carousel condition --}}
-      
+      @include('app.layouts.assets.header')
  
     <section data-anim-wrap class="masthead -type-2 js-mouse-move-container bg-dark-3">
       <div class="masthead__bg ">
         <img src="{{url('assets/img/masthead/2/bg.png')}}" alt="image">
       </div>
         {{-- Start Menu & carousel condition --}}
-
-
-        <section data-anim-wrap class="masthead -type-2 js-mouse-move-container bg-dark-3">
-            <div class="masthead__bg ">
-                <img src="{{ url('assets/img/masthead/2/bg.png') }}" alt="image">
-            </div>
-
-      <div class="container">
-              <!-- menu -->
-      @include('app.layouts.assets.menu')
-      <!-- Carousel -->
-     @include('app.pages.index.carousel')
-
-   
-      </div>
-        
-    </section>
             <div class="container">
                 <!-- menu -->
                 @include('app.layouts.assets.menu')
@@ -59,27 +43,6 @@
 
         {{-- END Start Menu & carousel condition --}}
         @yield('content')
-
-
-        <section data-anim-wrap class="masthead -type-2 js-mouse-move-container bg-dark-3">
-            <div class="masthead__bg ">
-                <img src="{{ url('assets/img/masthead/2/bg.png') }}" alt="image">
-            </div>
-
-            <div class="container">
-                <!-- menu -->
-                @include('app.layouts.assets.menu')
-                <!-- Carousel -->
-                @include('app.pages.index.carousel')
-            </div>
-        </section>
-
-        {{-- END Start Menu & carousel condition --}}
-        @yield('content')
-
-
-
-
         <section class="layout-pt-lg layout-pb-lg bg-dark-3">
             <div class="container">
                 <div class="row y-gap-60">

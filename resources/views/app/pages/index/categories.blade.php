@@ -32,128 +32,25 @@
         </div>
 
         <div class="pt-40 overflow-hidden js-section-slider" data-gap="30" data-slider-cols="xl-5 lg-3 md-2 sm-2 base-1" data-nav-prev="js-places-prev" data-pagination="js-places-pag" data-nav-next="js-places-next">
-          <div class="swiper-wrapper">
+         <div class="swiper-wrapper">
+  @foreach ($categories as $category)
+    <div data-anim-child="slide-left delay-{{ $loop->iteration + 3 }}" class="swiper-slide">
+      <a href="{{ route('frontend.products.byCategory', $category->slug) }}" class="citiesCard -type-2 ">
+        <div class="citiesCard__image rounded-4 ratio ratio-3:4">
+          <img class="img-ratio rounded-4 js-lazy" data-src="{{ asset($category->thumbnail) }}" src="#" alt="{{ $category->name }}">
+        </div>
 
-            <div data-anim-child="slide-left delay-4" class="swiper-slide">
+        <div class="citiesCard__content mt-10">
+          <h4 class="text-18 lh-13 fw-500 text-dark-1">{{ $category->name }}</h4>
+          {{-- Untuk bagian in apakah bis akita melakukan penghitungan jumlah product yang ada di dalam kategori ini --}}
+          <div class="text-14 text-light-1">{{ $category->products_count }} Products & Layanan Tersedia</div>
+        </div>
+      </a>
+    </div>
+  @endforeach
+</div>
 
-              <a href="#" class="citiesCard -type-2 ">
-                <div class="citiesCard__image rounded-4 ratio ratio-3:4">
-                  <img class="img-ratio rounded-4 js-lazy" data-src="{{url('assets/img/destinations/1/1.webp')}}" src="#" alt="image">
-                </div>
 
-                <div class="citiesCard__content mt-10">
-                  <h4 class="text-18 lh-13 fw-500 text-dark-1">Tour</h4>
-                  <div class="text-14 text-light-1">147 Destinasi Tujuan</div>
-                </div>
-              </a>
-            </div>
-
-            <div data-anim-child="slide-left delay-5" class="swiper-slide">
-
-              <a href="#" class="citiesCard -type-2 ">
-                <div class="citiesCard__image rounded-4 ratio ratio-3:4">
-                  <img class="img-ratio rounded-4 js-lazy" data-src="{{url('assets/img/destinations/1/2.webp')}}" src="#" alt="image">
-                </div>
-
-                <div class="citiesCard__content mt-10">
-                  <h4 class="text-18 lh-13 fw-500 text-dark-1">Rental Mobil</h4>
-                  <div class="text-14 text-light-1">147 Mobil</div>
-                </div>
-              </a>
-
-            </div>
-
-            <div data-anim-child="slide-left delay-6" class="swiper-slide">
-
-              <a href="#" class="citiesCard -type-2 ">
-                <div class="citiesCard__image rounded-4 ratio ratio-3:4">
-                  <img class="img-ratio rounded-4 js-lazy" data-src="{{url('/assets/img/destinations/1/3.webp')}}" src="#" alt="image">
-                </div>
-
-                <div class="citiesCard__content mt-10">
-                  <h4 class="text-18 lh-13 fw-500 text-dark-1">Hotel</h4>
-                  <div class="text-14 text-light-1">147 Hotel</div>
-                </div>
-              </a>
-
-            </div>
-
-            <div data-anim-child="slide-left delay-7" class="swiper-slide">
-
-              <a href="#" class="citiesCard -type-2 ">
-                <div class="citiesCard__image rounded-4 ratio ratio-3:4">
-                  <img class="img-ratio rounded-4 js-lazy" data-src="{{url('assets/img/destinations/1/4.webp')}}" src="#" alt="image">
-                </div>
-
-                <div class="citiesCard__content mt-10">
-                  <h4 class="text-18 lh-13 fw-500 text-dark-1">Ticket Pesawat</h4>
-                  <div class="text-14 text-light-1">147,681 travellers</div>
-                </div>
-              </a>
-
-            </div>
-
-            <div data-anim-child="slide-left delay-8" class="swiper-slide">
-
-              <a href="#" class="citiesCard -type-2 ">
-                <div class="citiesCard__image rounded-4 ratio ratio-3:4">
-                  <img class="img-ratio rounded-4 js-lazy" data-src="{{url('assets/img/destinations/1/5.webp')}}" src="#" alt="image">
-                </div>
-
-                <div class="citiesCard__content mt-10">
-                  <h4 class="text-18 lh-13 fw-500 text-dark-1">Pembuatan E-SIM</h4>
-                  <div class="text-14 text-light-1">Pembuatan kartu sim elektronik</div>
-                </div>
-              </a>
-
-            </div>
-
-            <div data-anim-child="slide-left delay-9" class="swiper-slide">
-
-              <a href="#" class="citiesCard -type-2 ">
-                <div class="citiesCard__image rounded-4 ratio ratio-3:4">
-                  <img class="img-ratio rounded-4 js-lazy" data-src="img/destinations/1/1.webp" src="#" alt="image">
-                </div>
-
-                <div class="citiesCard__content mt-10">
-                  <h4 class="text-18 lh-13 fw-500 text-dark-1">United Kingdom</h4>
-                  <div class="text-14 text-light-1">147,681 travellers</div>
-                </div>
-              </a>
-
-            </div>
-
-            <div data-anim-child="slide-left delay-10" class="swiper-slide">
-
-              <a href="#" class="citiesCard -type-2 ">
-                <div class="citiesCard__image rounded-4 ratio ratio-3:4">
-                  <img class="img-ratio rounded-4 js-lazy" data-src="img/destinations/1/2.webp" src="#" alt="image">
-                </div>
-
-                <div class="citiesCard__content mt-10">
-                  <h4 class="text-18 lh-13 fw-500 text-dark-1">Italy</h4>
-                  <div class="text-14 text-light-1">147,681 travellers</div>
-                </div>
-              </a>
-
-            </div>
-
-            <div data-anim-child="slide-left delay-11" class="swiper-slide">
-
-              <a href="#" class="citiesCard -type-2 ">
-                <div class="citiesCard__image rounded-4 ratio ratio-3:4">
-                  <img class="img-ratio rounded-4 js-lazy" data-src="img/destinations/1/3.webp" src="#" alt="image">
-                </div>
-
-                <div class="citiesCard__content mt-10">
-                  <h4 class="text-18 lh-13 fw-500 text-dark-1">France</h4>
-                  <div class="text-14 text-light-1">147,681 travellers</div>
-                </div>
-              </a>
-
-            </div>
-
-          </div>
         </div>
       </div>
     </section>

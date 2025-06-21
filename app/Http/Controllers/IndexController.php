@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carousel;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
@@ -16,8 +17,9 @@ class IndexController extends Controller
     $categories = ProductCategory::with('subcategories')
         ->withCount('products')
         ->get();
+        $carousels = Carousel::all();
 
-    return view('app.pages.index.index', compact('categories'));
+    return view('app.pages.index.index', compact('categories','carousels'));
 }
 
     /**

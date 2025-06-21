@@ -1,24 +1,38 @@
 <?php
 
+use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\UserController;
+use App\Models\Carousel;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
-Route::get('/', [IndexController::class, 'index']);
+Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/produk/kategori/{slug}', [IndexController::class, 'categoryProducts'])->name('frontend.products.byCategory');
 
+Auth::routes();
+
+// Route::get('/', function () {
+//     return view('app.pages.index.index');
+// });
+
+
+Route::get('/detail/carousel/{id}', [CarouselController::class, 'detail'])->name('carousel.detail');
+
 Route::get('/kelola/produk', function () {
-    return view('app.admin.pages.data_produk.index');
+    return view('panel.pages.data_produk.index');
 });
 
 
 // ROUTE UNTUK HALAMAN ADMIN MENGGUNAKAN PREFIX admin-
 //rout ketika sudah memiliki auth
-// Route::prefix('admin-panel')->name('admin-panel.')->middleware(['auth', 'admin'])->group(function ()
-Route::prefix('admin-panel')->name('admin-panel.')->group(function () {
+Route::prefix('admin-panel')->name('admin-panel.')->middleware(['auth'])->group(function ()
+ {
     // 1. Dashboard Admin
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -60,5 +74,31 @@ Route::prefix('categories')->name('categories.')->group(function () {
     Route::delete('/{id}', [SubCategoryController::class, 'destroy'])->name('destroy');
 });
 
+    // 5. Rute untuk Carousel
+    Route::prefix('/carousel')->name('carousel.')->group(function () {
+        Route::get('/', [CarouselController::class, 'index'])->name('index');
+        Route::get('/create', [CarouselController::class, 'create'])->name('create');
+        Route::post('/', [CarouselController::class, 'store'])->name('store');
+        Route::get('/{id}/detail', [CarouselController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [CarouselController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [CarouselController::class, 'update'])->name('update');
+        Route::get('/delete/{id}', [CarouselController::class, 'destroy'])->name('destroy');
+    });
+
+    // 6. Rute untuk User
+    Route::prefix('/user')->name('user.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/', [UserController::class, 'store'])->name('store');
+        Route::get('/{id}/detail', [UserController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [UserController::class, 'update'])->name('update');
+        Route::get('/delete/{id}', [UserController::class, 'destroy'])->name('destroy');
+    });
+
     // Tambahkan rute admin lainnya di sini...
 });
+
+
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

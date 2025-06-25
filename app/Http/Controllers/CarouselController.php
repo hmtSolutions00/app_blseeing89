@@ -9,10 +9,16 @@ use Illuminate\Http\Request;
 class CarouselController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
+        public function detail($id){
+        $carousel = Carousel::find($id);
+        return view('app.pages.carousel.show',[
+            'carousel' => $carousel
+        ]);
     }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     public function index()
     {
@@ -112,10 +118,5 @@ class CarouselController extends Controller
     }
 
 
-    public function detail($id){
-        $carousel = Carousel::find($id);
-        return view('app.pages.carousel.show',[
-            'carousel' => $carousel
-        ]);
-    }
+
 }

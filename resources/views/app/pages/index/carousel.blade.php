@@ -14,7 +14,7 @@
                 <div class="swiper-wrapper">
                     @foreach ($carousels as $carousel)
                         <div class="swiper-slide">
-                            <a href="{{ route('carousel.detail', $carousel->id) }}"><img src="carousel-images/{{ $carousel->url_images }}" alt="image" style="height: 390px; width: 690px;"></a>
+                            <a href="{{ route('carousel.detail', $carousel->id) }}"><img src="carousel-images/{{ $carousel->url_images }}" alt="image" style="width: -webkit-fill-available;max-height:400px"></a>
                         </div>
                     @endforeach
                 </div>

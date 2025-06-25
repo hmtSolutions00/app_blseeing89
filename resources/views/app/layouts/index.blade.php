@@ -37,6 +37,8 @@
         <section data-anim-wrap class="masthead -type-2 js-mouse-move-container bg-dark-3">
             <div class="container">
                 <!-- menu -->
+                @include('app.layouts.assets.header')
+                <!-- menu -->
                 @include('app.layouts.assets.menu')
                 <!-- Carousel -->
                 @if (Route::currentRouteName() === 'index')

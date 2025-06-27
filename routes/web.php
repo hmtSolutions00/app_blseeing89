@@ -1,26 +1,28 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use App\Models\Carousel;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/produk/kategori/{slug}', [IndexController::class, 'categoryProducts'])->name('frontend.products.byCategory');
 
 Auth::routes();
 
-// Route::get('/', function () {
-//     return view('app.pages.index.index');
-// });
-
-Route::get('/', [HomeController::class, 'index'])->name('index');
-
 Route::get('/detail/carousel/{id}', [CarouselController::class, 'detail'])->name('carousel.detail');
+
+Route::get('/about-us', [AboutUsController::class, 'index2'])->name('aboutus.index');
 
 Route::get('/kelola/produk', function () {
     return view('panel.pages.data_produk.index');
@@ -29,19 +31,23 @@ Route::get('/kelola/produk', function () {
 
 // ROUTE UNTUK HALAMAN ADMIN MENGGUNAKAN PREFIX admin-
 //rout ketika sudah memiliki auth
-// Route::prefix('admin-panel')->name('admin-panel.')->middleware(['auth', 'admin'])->group(function ()
-Route::prefix('admin-panel')->name('admin-panel.')->group(function () {
+Route::prefix('admin-panel')->name('admin-panel.')->middleware(['auth'])->group(function () {
     // 1. Dashboard Admin
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    // 2. Rute untuk Produk
+    // Rute untuk AJAX, namanya akan menjadi 'admin-panel.get-subcategories'
+    Route::get('/get-subcategories/{categoryId}', [ProductController::class, 'getSubcategories'])->name('get-subcategories');
+
+    Route::get('/get-products/{subcategoryId}', [ProductController::class, 'getProducts']);
+    // 2. Grup Rute untuk Produk
     Route::prefix('products')->name('products.')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/create', [ProductController::class, 'create'])->name('create');
         Route::post('/', [ProductController::class, 'store'])->name('store');
+        Route::get('/{id}', [ProductController::class, 'show'])->name('show');
         Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [ProductController::class, 'update'])->name('update');
-        Route::delete('/{id}/delete', [ProductController::class, 'destroy'])->name('destroy');
+        Route::put('/{product}', [ProductController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ProductController::class, 'destroy'])->name('destroy');
     });
 
     // 3. Rute untuk Kategori Produk
@@ -54,6 +60,7 @@ Route::prefix('admin-panel')->name('admin-panel.')->group(function () {
         Route::get('/{id}/edit', [CategoryController::class, 'edit'])->name('edit');
         Route::put('/{id}', [CategoryController::class, 'update'])->name('update');
         Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+        Route::get('/{id}', [CategoryController::class, 'show'])->name('show'); // <--- tambahkan ini
     });
 
     // 4. Rute untuk Sub Kategori Produk
@@ -61,6 +68,7 @@ Route::prefix('admin-panel')->name('admin-panel.')->group(function () {
         Route::get('/', [SubCategoryController::class, 'index'])->name('index');
         Route::get('/create', [SubCategoryController::class, 'create'])->name('create');
         Route::post('/', [SubCategoryController::class, 'store'])->name('store');
+        Route::get('/{id}', [SubCategoryController::class, 'show'])->name('show'); // ⬅️ Tambahkan ini
         Route::get('/{id}/edit', [SubCategoryController::class, 'edit'])->name('edit');
         Route::put('/{id}', [SubCategoryController::class, 'update'])->name('update');
         Route::delete('/{id}', [SubCategoryController::class, 'destroy'])->name('destroy');
@@ -86,6 +94,34 @@ Route::prefix('admin-panel')->name('admin-panel.')->group(function () {
         Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');
         Route::put('/{id}', [UserController::class, 'update'])->name('update');
         Route::get('/delete/{id}', [UserController::class, 'destroy'])->name('destroy');
+    });
+
+     // 7. Rute untuk About Us
+    Route::prefix('/about-us')->name('about-us.')->group(function () {
+        Route::get('/', [AboutUsController::class, 'index'])->name('index');
+        Route::get('/{id}/edit', [AboutUsController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [AboutUsController::class, 'update'])->name('update');
+    });
+
+    // 8. Rute untuk Partner
+    Route::prefix('/partner')->name('partner.')->group(function () {
+        Route::get('/', [PartnerController::class, 'index'])->name('index');
+        Route::get('/create', [PartnerController::class, 'create'])->name('create');
+        Route::post('/', [PartnerController::class, 'store'])->name('store');
+        Route::get('/{id}/detail', [PartnerController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [PartnerController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [PartnerController::class, 'update'])->name('update');
+        Route::get('/delete/{id}', [PartnerController::class, 'destroy'])->name('destroy');
+    });
+
+     Route::prefix('/testimonial')->name('testimonial.')->group(function () {
+        Route::get('/', [TestimonialController::class, 'index'])->name('index');
+        Route::get('/create', [TestimonialController::class, 'create'])->name('create');
+        Route::post('/', [TestimonialController::class, 'store'])->name('store');
+        Route::get('/{id}/detail', [TestimonialController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [TestimonialController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [TestimonialController::class, 'update'])->name('update');
+        Route::get('/delete/{id}', [TestimonialController::class, 'destroy'])->name('destroy');
     });
 
     // Tambahkan rute admin lainnya di sini...

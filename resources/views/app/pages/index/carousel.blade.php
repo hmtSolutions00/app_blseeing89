@@ -4,8 +4,7 @@
             <h1 data-anim-child="slide-up delay-2" class="z-2 text-60 lg:text-40 md:text-30 text-white pt-80 xl:pt-0">
                 <span class="text-yellow-1">Where Would</span><br>
                 You Like To Go?
-                <p data-anim-child="slide-up delay-3" class="text-white">Checkout Beautiful Places Arround
-                    the World.</p>
+                <p data-anim-child="slide-up delay-3" class="text-white">Start Your Journey with Blessing89 Tour & Travel.</p>
             </h1>
         </div>
         {{-- Carousel --}}
@@ -14,7 +13,7 @@
                 <div class="swiper-wrapper">
                     @foreach ($carousels as $carousel)
                         <div class="swiper-slide">
-                            <a href="{{ route('carousel.detail', $carousel->id) }}"><img src="carousel-images/{{ $carousel->url_images }}" alt="image" style="width: -webkit-fill-available;max-height:400px"></a>
+                            <a href="{{ route('carousel.detail', $carousel->id) }}"><img src="carousel-images/{{ $carousel->thumbnail }}" alt="image" style="width: -webkit-fill-available;max-height:400px"></a>
                         </div>
                     @endforeach
                 </div>

@@ -11,17 +11,20 @@
                      <a href="{{ url('/') }}" class="header-logo mr-30" data-x="header-logo"
                          data-x-toggle="is-logo-dark">
                          <img src="{{ url('assets/images/logo_kelae.png') }}" alt="logo icon">
+             
                      </a>
+                                 
+                <h1 class="text-yellow-1">Blessing89 Tour & Travel</h1>
+            
                        {{-- Bahasa app --}}
                        
-                     {{-- <div class="col-auto">
+                     <div class="col-auto">
                         
                          <button class="d-flex items-center text-14 text-white gap-2 lang-toggle" id="langToggleButton">
                              <span class="lang-option active" data-lang="id">ID</span> |
                              <span class="lang-option" data-lang="en">EN</span>
                          </button>
-                     </div> --}}
-                     {{-- End Bahasa --}}
+                     </div> 
 
 
                      {{-- Menu --}}
@@ -374,4 +377,5 @@
              </div>
          </div>
      </div>
+     
  </header>

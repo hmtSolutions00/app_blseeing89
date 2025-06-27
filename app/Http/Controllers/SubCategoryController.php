@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class SubCategoryController extends Controller
 {
@@ -42,8 +44,8 @@ class SubCategoryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
+{
+    $request->validate([
         'product_category_id' => 'required|exists:product_categories,id',
         'name' => 'required|string|max:255',
         'description' => 'required|string',
@@ -64,6 +66,10 @@ class SubCategoryController extends Controller
         'meta_og_type',
     ]);
 
+    // ✅ Tambah slug unik
+    $data['slug'] = Str::slug($data['name']) . '-' . uniqid();
+
+    // ✅ Upload thumbnail jika ada
     if ($request->hasFile('thumbnail')) {
         $file = $request->file('thumbnail');
         $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
@@ -74,7 +80,8 @@ class SubCategoryController extends Controller
     ProductSubcategory::create($data);
 
     return redirect()->route('admin-panel.sub_categories.index')->with('success', 'Subkategori berhasil ditambahkan.');
-    }
+}
+
 
     /**
      * Display the specified resource.
@@ -104,17 +111,17 @@ class SubCategoryController extends Controller
     public function update(Request $request, string $id)
     {
         $subcategory = ProductSubcategory::findOrFail($id);
-
-    $validated = $request->validate([
-        'product_category_id' => 'required|exists:product_categories,id',
-        'name' => 'required|string|max:255',
-        'description' => 'required|string|max:1000',
-        'meta_keywords' => 'nullable|string|max:255',
-        'meta_og_title' => 'nullable|string|max:255',
-        'meta_og_description' => 'nullable|string|max:255',
-        'meta_og_type' => 'nullable|string|max:255',
-        'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    ]);
+$validated = $request->except('slug'); // Pastikan slug dikeluarkan jika dikirim
+$validated = Validator::make($validated, [
+    'product_category_id' => 'required|exists:product_categories,id',
+    'name' => 'required|string|max:255',
+    'description' => 'required|string|max:1000',
+    'meta_keywords' => 'nullable|string|max:255',
+    'meta_og_title' => 'nullable|string|max:255',
+    'meta_og_description' => 'nullable|string|max:255',
+    'meta_og_type' => 'nullable|string|max:255',
+    'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+])->validate();
 
     try {
         // Handle thumbnail jika ada file baru

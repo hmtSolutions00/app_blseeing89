@@ -1,6 +1,71 @@
 @extends('app.layouts.index')
 @section('custom_css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <style>@media (max-width: 576px) {
+  .product-category-card {
+    padding: 10px;
+  }
+
+  .product-category-card .category-title {
+    font-size: 12px;
+    line-height: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .product-category-card .category-count {
+    font-size: 10px;
+  }
+
+  .product-category-card img {
+    max-height: 60px;
+    object-fit: cover;
+  }
+}
+.product-category-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 10px;
+}
+
+.category-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, 1fr); /* 2 baris 
+  grid-template-rows: repeat(3, 1fr); /* jadi 3 baris */
+  */
+  gap: 10px;
+  width: max-content;
+}
+
+.category-card {
+  width: 120px;
+}
+.category-card {
+  width: 120px;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 2px solid #ffcc00; /* warna kuning keemasan */
+  border-radius: 12px;
+  margin: 4px;
+  box-sizing: border-box;
+  transition: transform 0.2s ease;
+}
+
+.category-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.category-card .text-14 {
+  height: 42px; /* batasi tinggi (misal 2 baris teks) */
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+    </style>
 @endsection
 @section('content')
     {{-- Kategori Produk dan layanan kami --}}

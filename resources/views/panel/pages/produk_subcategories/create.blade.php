@@ -63,6 +63,7 @@
                                     <div class="text-red-1 mt-5">{{ $message }}</div>
                                 @enderror
                             </div>
+                            
                         </div>
 
                         {{-- Thumbnail --}}

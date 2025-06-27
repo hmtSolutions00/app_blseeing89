@@ -22,6 +22,13 @@ class IndexController extends Controller
     return view('app.pages.index.index', compact('categories','carousels'));
 }
 
+public function product_layanan(){
+        $categories = ProductCategory::with('subcategories')
+        ->withCount('products')
+        ->get();
+        return view('app.pages.products.categories', compact('categories'));
+}
+
     /**
      * Show the form for creating a new resource.
      */

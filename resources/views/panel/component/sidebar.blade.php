@@ -72,5 +72,29 @@
                 </a>
             </div>
         </div>
+        <div class="sidebar__item">
+            <div class="sidebar__button">
+                <a href="/admin-panel/about-us" class="d-flex items-center text-15 lh-1 fw-500">
+                   <i class="fa-solid fa-city fa-lg mr-15 text-center" style="width: 24px"></i>
+                    About Us
+                </a>
+            </div>
+        </div>
+        <div class="sidebar__item">
+            <div class="sidebar__button">
+                <a href="/admin-panel/partner" class="d-flex items-center text-15 lh-1 fw-500">
+                   <i class="fa-solid fa-handshake fa-lg mr-15 text-center" style="width: 24px"></i>
+                    Partner
+                </a>
+            </div>
+        </div>
+        <div class="sidebar__item">
+            <div class="sidebar__button">
+                <a href="/admin-panel/testimonial" class="d-flex items-center text-15 lh-1 fw-500">
+                   <i class="fa-solid fa-comments fa-lg mr-15 text-center" style="width: 24px"></i>
+                    Testimonial
+                </a>
+            </div>
+        </div>
     </div>
 </div>

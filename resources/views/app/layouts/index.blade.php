@@ -39,6 +39,8 @@
         {{-- Start Menu & carousel condition --}}
             <div class="container">
                 <!-- menu -->
+                @include('app.layouts.assets.header')
+                <!-- menu -->
                 @include('app.layouts.assets.menu')
                 <!-- Carousel -->
                 @if (Route::currentRouteName() === 'index')

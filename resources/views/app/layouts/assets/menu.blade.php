@@ -36,11 +36,6 @@
               Galeri
             </a>
           </div>
-
-                    <div class="">
-                        <a href="/about-us" class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button " data-tab-target=".-tab-item-5">
-                            <i class="fa-solid fa-circle-info text-20 mr-10 sm:mr-5"></i> Tentang Kami </a>
-                    </div>
           <div>
             <a href="#"
                class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button {{ $currentRoute === 'frontend.tentang' ? 'is-tab-el-active' : '' }}">
@@ -56,11 +51,6 @@
               Hubungi Kami
             </a>
           </div>
-                    <div class="">
-                        <a href="#" class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button " data-tab-target=".-tab-item-6">
-                            <i class="fa-solid fa-phone text-20 mr-10 sm:mr-5"></i> Hubungi Kami </a>
-                    </div>
-
           <div>
             <a href="#"
                class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button {{ $currentRoute === 'frontend.panduan' ? 'is-tab-el-active' : '' }}">

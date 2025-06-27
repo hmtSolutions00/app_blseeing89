@@ -47,7 +47,8 @@
                             <thead class="bg-light-2">
                                 <tr>
                                     <th class="text-center" style="font-weight: bold">Judul</th>
-                                    <th class="text-center" style="font-weight: bold">URL Gambar</th>
+                                    <th class="text-center" style="font-weight: bold">URL Gambar Carousel</th>
+                                    <th class="text-center" style="font-weight: bold">URL Thumbnail Carousel</th>
                                     <th class="text-center" style="font-weight: bold">Aksi</th>
                                 </tr>
                             </thead>
@@ -57,34 +58,36 @@
                                         <td>{{ $carousel->judul }}</td>
                                         <td class="text-center"><a href="/carousel-images/{{ $carousel->url_images }}"
                                                 style="color: cornflowerblue">Link URL
-                                                Gambar</a></td>
-                                        <td class="action" style="place-items: center">
-                                            <div class="dropdown">
-                                                <button
-                                                    class="dropdown__button d-flex items-center rounded-4 text-blue-1 bg-blue-1-05 text-14 px-15 py-5 dropdown-toggle"
-                                                    type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    <div class="js-dropdown-title">Aksi</div>
-                                                </button>
-                                                <div class="dropdown-style dropdown-menu dropdown-menu-right"
-                                                    aria-labelledby="dropdownMenuButton">
-                                                    <div class="text-16 fw-500 js-dropdown-list">
-                                                        <div class="mb-2">
-                                                            <a class="dropdown-item d-block js-dropdown-link"
-                                                                href="{{ route('admin-panel.carousel.show', $carousel->id) }}">
-                                                                Detail</a>
-                                                        </div>
-                                                        <div class="mb-2">
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('admin-panel.carousel.edit', $carousel->id) }}">Ubah</a>
-                                                        </div>
-                                                        <div>
-                                                            <button class="dropdown-item"
-                                                                onclick="deleteConfirmation(this)">Hapus</button>
-                                                            <input type="hidden" class="id_car" name="id_car"
-                                                                id="id_car" value="{{ $carousel->id }}">
-                                                        </div>
-                                                    </div>
+                                                Gambar Carousel</a></td>
+                                        <td class="text-center"><a href="/carousel-images/{{ $carousel->thumbnail }}"
+                                                style="color: cornflowerblue">Link URL Thumbnail Carousel</a></td>
+                                        <td class="action">
+                                            <div class="row x-gap-10 y-gap-10 items-center">
+                                                {{-- Tombol Detail --}}
+                                                <div class="col-auto">
+                                                    <a href="{{ route('admin-panel.carousel.show', $carousel->id) }}"
+                                                        class="flex-center bg-light-2 rounded-4 size-35" title="Detail">
+                                                        <i class="icon-eye text-16 text-light-1"></i>
+                                                    </a>
+                                                </div>
+
+                                                {{-- Tombol Edit --}}
+                                                <div class="col-auto">
+                                                    <a href="{{ route('admin-panel.carousel.edit', $carousel->id) }}"
+                                                        class="flex-center bg-light-2 rounded-4 size-35" title="Edit">
+                                                        <i class="icon-edit text-16 text-light-1"></i>
+                                                    </a>
+                                                </div>
+
+                                                {{-- Tombol Delete --}}
+                                                <div class="col-auto">
+                                                    <button class="flex-center bg-light-2 rounded-4 size-35" title="Hapus"
+                                                        onclick="deleteConfirmation(this)">
+                                                        <i class="icon-trash-2 text-16 text-light-1"></i>
+                                                        <input type="hidden" class="id_car" name="id_car" id="id_car"
+                                                            value="{{ $carousel->id }}">
+                                                    </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>

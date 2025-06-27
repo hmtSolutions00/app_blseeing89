@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Carousel;
+use App\Models\Partner;
+use App\Models\ProductCategory;
+use App\Models\Testimonial;
+use Illuminate\Http\Request;
+
+class IndexController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+  public function index()
+{
+    // Ambil semua kategori produk beserta subkategori & hitung jumlah produk per kategori
+    $categories = ProductCategory::with('subcategories')
+        ->withCount('products')
+        ->get();
+        $carousels = Carousel::all();
+        $partners = Partner::all();
+        $testimonials = Testimonial::where('is_published', true)->get();
+    return view('app.pages.index.index', compact('categories','carousels', 'partners', 'testimonials'));
+}
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}

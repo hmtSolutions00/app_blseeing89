@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("judul");
             $table->string("url_images");
+            $table->string("thumbnail");
             $table->longText("deskripsi");
             $table->string("meta_description")->nullable();
             $table->string("meta_keywords")->nullable();

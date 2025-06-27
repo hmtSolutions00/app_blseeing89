@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carousel;
+use App\Models\Partner;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,8 +26,10 @@ class HomeController extends Controller
     public function index()
     {
         $carousels = Carousel::all();
+        $partners = Partner::all();
         return view('app.pages.index.index',[
-            "carousels" => $carousels
+            "carousels" => $carousels,
+            "partners" => $partners
         ]);
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carousel;
+use App\Models\Partner;
 use App\Models\ProductCategory;
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -18,8 +20,9 @@ class IndexController extends Controller
         ->withCount('products')
         ->get();
         $carousels = Carousel::all();
-
-    return view('app.pages.index.index', compact('categories','carousels'));
+        $partners = Partner::all();
+        $testimonials = Testimonial::where('is_published', true)->get();
+    return view('app.pages.index.index', compact('categories','carousels', 'partners', 'testimonials'));
 }
 
 public function product_layanan(){

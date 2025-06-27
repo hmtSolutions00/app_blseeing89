@@ -73,15 +73,15 @@
     {{-- End Kategori Produk dan kayanan kami --}}
     @include('app.pages.index.products')
 
-    <section class="layout-pt-lg layout-pb-lg bg-dark-3">
+    <section class="layout-pt-lg layout-pb-lg bg-dark-3" id="testimonial_section">
         <div class="container">
             <div class="row y-gap-60">
-                <div class="col-xl-5 col-lg-6">
+                <div class="col-xl-5 col-lg-6" style="align-content: center">
                     <h2 class="text-30 text-white">What our customers are<br> saying us?</h2>
                     <p class="text-white mt-20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
                         varius tortor nibh, sit amet tempor nibh finibus et. Aenean eu enim justo.</p>
 
-                    <div class="row y-gap-30 text-white pt-60 lg:pt-40">
+                    {{-- <div class="row y-gap-30 text-white pt-60 lg:pt-40">
                         <div class="col-sm-5 col-6">
                             <div class="text-30 lh-15 fw-600">13m+</div>
                             <div class="lh-15">Happy People</div>
@@ -105,7 +105,7 @@
 
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="col-xl-4 offset-xl-2 col-lg-5 offset-lg-1 col-md-10">
@@ -113,81 +113,28 @@
 
                     <div class="testimonials-slider-2 js-testimonials-slider-2">
                         <div class="swiper-wrapper">
+                            @foreach ($testimonials as $testimonial)
+                                <div class="swiper-slide">
+                                    <div class="testimonials -type-1 bg-white rounded-4 pt-40 pb-30 px-40 shadow-2">
+                                        <div class="">
+                                            {{-- <h4 class="text-16 fw-500 text-blue-1 mb-20">Hotel Equatorial Melaka</h4> --}}
+                                            <p class="testimonials__text lh-18 fw-500 text-dark-1">&quot;{{ $testimonial->testimonial_text }}&quot;</p>
+                                            <div class="pt-20 mt-28 border-top-light">
+                                                <div class="row x-gap-20 y-gap-20 items-center">
+                                                    <div class="col-3">
+                                                        <img src="/uploads/testimonial/{{ $testimonial->customer_photo_path }}" alt="image" style="border-radius: 60%; width: 80px;height:65px; object-fit: cover;">
+                                                    </div>
 
-                            <div class="swiper-slide">
-                                <div class="testimonials -type-1 bg-white rounded-4 pt-40 pb-30 px-40 shadow-2">
-                                    <div class="">
-                                        <h4 class="text-16 fw-500 text-blue-1 mb-20">Hotel Equatorial Melaka</h4>
-                                        <p class="testimonials__text lh-18 fw-500 text-dark-1">&quot;Our family was
-                                            traveling via bullet train between cities in Japan with our luggage -
-                                            the location for this hotel made that so easy. Agoda price was
-                                            fantastic.&quot;</p>
-
-                                        <div class="pt-20 mt-28 border-top-light">
-                                            <div class="row x-gap-20 y-gap-20 items-center">
-                                                <div class="col-auto">
-                                                    <img src="img/avatars/1.png" alt="image">
-                                                </div>
-
-                                                <div class="col-auto">
-                                                    <div class="text-15 fw-500 lh-14">Courtney Henry</div>
-                                                    <div class="text-14 lh-14 text-light-1 mt-5">Web Designer</div>
+                                                    <div class="col-auto">
+                                                        <div class="text-15 fw-500 lh-14">{{ $testimonial->customer_name }}</div>
+                                                        {{-- <div class="text-14 lh-14 text-light-1 mt-5">Web Designer</div> --}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="testimonials -type-1 bg-white rounded-4 pt-40 pb-30 px-40 shadow-2">
-                                    <div class="">
-                                        <h4 class="text-16 fw-500 text-blue-1 mb-20">Hotel Equatorial Melaka</h4>
-                                        <p class="testimonials__text lh-18 fw-500 text-dark-1">&quot;Our family was
-                                            traveling via bullet train between cities in Japan with our luggage -
-                                            the location for this hotel made that so easy. Agoda price was
-                                            fantastic.&quot;</p>
-
-                                        <div class="pt-20 mt-28 border-top-light">
-                                            <div class="row x-gap-20 y-gap-20 items-center">
-                                                <div class="col-auto">
-                                                    <img src="img/avatars/1.png" alt="image">
-                                                </div>
-
-                                                <div class="col-auto">
-                                                    <div class="text-15 fw-500 lh-14">Courtney Henry</div>
-                                                    <div class="text-14 lh-14 text-light-1 mt-5">Web Designer</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="testimonials -type-1 bg-white rounded-4 pt-40 pb-30 px-40 shadow-2">
-                                    <div class="">
-                                        <h4 class="text-16 fw-500 text-blue-1 mb-20">Hotel Equatorial Melaka</h4>
-                                        <p class="testimonials__text lh-18 fw-500 text-dark-1">&quot;Our family was
-                                            traveling via bullet train between cities in Japan with our luggage -
-                                            the location for this hotel made that so easy. Agoda price was
-                                            fantastic.&quot;</p>
-
-                                        <div class="pt-20 mt-28 border-top-light">
-                                            <div class="row x-gap-20 y-gap-20 items-center">
-                                                <div class="col-auto">
-                                                    <img src="img/avatars/1.png" alt="image">
-                                                </div>
-
-                                                <div class="col-auto">
-                                                    <div class="text-15 fw-500 lh-14">Courtney Henry</div>
-                                                    <div class="text-14 lh-14 text-light-1 mt-5">Web Designer</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
 
                         </div>
 
@@ -216,19 +163,21 @@
 
             <div class="row justify-center text-center pt-60">
                 <div class="col-auto">
-                    <div class="text-15 lh-1 text-white">Trusted by the world’s best</div>
+                    <div class="text-20 lh-1 text-white">Partner Kami</div>
                 </div>
             </div>
 
-            <div class="px-40 md:px-0">
-                <div class="row y-gap-30 justify-between items-center pt-60 lg:pt-40">
-
-                    <div class="col-md-auto col-sm-6">
-                        <div class="d-flex justify-center">
-                            <img src="img/clients/1.svg" alt="image">
+            <div class="px-40 md:px-0" style="justify-items: anchor-center;">
+                <div class="row y-gap-30 items-center pt-60 lg:pt-40">
+                    @foreach ($partners as $partner)
+                        <div class="col-md-auto col-sm-6">
+                            <div class="d-flex justify-center">
+                                <img src="/uploads/partner/{{ $partner->logo_path }}" alt="image" style="width:100px">
+                            </div>
                         </div>
-                    </div>
+                    @endforeach
 
+                    {{--
                     <div class="col-md-auto col-sm-6">
                         <div class="d-flex justify-center">
                             <img src="img/clients/2.svg" alt="image">
@@ -257,7 +206,7 @@
                         <div class="d-flex justify-center">
                             <img src="img/clients/6.svg" alt="image">
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

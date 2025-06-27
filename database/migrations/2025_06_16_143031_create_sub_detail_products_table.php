@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sub_detail_products', function (Blueprint $table) {
-            Schema::create('sub_detail_products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('detail_product_id');
             $table->text('content');
@@ -21,7 +20,6 @@ return new class extends Migration
             // Mendefinisikan foreign key ke tabel detail_products
             // onDelete('cascade') berarti jika sebuah detail dihapus, semua sub-detailnya ikut terhapus.
             $table->foreign('detail_product_id')->references('id')->on('detail_products')->onDelete('cascade');
-        });
         });
     }
 

@@ -26,9 +26,15 @@
                                 </div>
                                 <div class="col-12 col-lg-12 mb-3">
                                     <label for="url_images" class="mb-2">Gambar Carousel</label><br>
-                                    <img src="/carousel-images/{{ $carousel->url_images }}" alt="" style="width: 400px">
+                                    <img src="/carousel-images/{{ $carousel->url_images }}" alt=""
+                                        style="width: 400px">
                                 </div>
                                 <div class="col-12 col-lg-12 mb-3">
+                                    <label for="thumbnail" class="mb-2">Thumbnail Carousel</label><br>
+                                    <img src="/carousel-images/{{ $carousel->thumbnail }}" alt=""
+                                        style="width: 400px">
+                                </div>
+                                <div class="col-12 col-lg-12 mb-3 text-wrap">
                                     <span for="url_images" class="mb-2" style="font-weight: bold">Deskripsi
                                         Carousel</span>
                                     <p>{!! $carousel->deskripsi !!}</p>
@@ -66,9 +72,50 @@
                                     <label for="meta_og_type" class="mb-2">Meta OG Type</label>
                                     <input type="text" id="meta_og_type" name="meta_og_type"
                                         class="form-control form-control-lg h-50 @error('name') is-invalid @enderror"
-                                        placeholder="-" value="{{  $carousel->meta_og_type }}" readonly>
+                                        placeholder="-" value="{{ $carousel->meta_og_type }}" readonly>
                                 </div>
+                                <div class="col-12 col-lg-12 mb-3">
+                                    <label for="meta_og_type" class="mb-2">Produk Terkait</label>
+                                    @if (count($related_products) != 0)
+                                        <div class="row y-gap-30 pt-10">
+                                            @foreach ($related_products as $product)
+                                                <div class="col-lg-3 col-sm-6">
+                                                    <a href="/admin-panel/products/{{ $product->id }}"
+                                                        class="blogCard -type-2 d-block bg-white rounded-4 shadow-4">
+                                                        <div class="blogCard__image">
+                                                            <div class="ratio ratio-1:1 rounded-4">
+                                                                <img class="img-ratio js-lazy" src="#"
+                                                                    data-src="/{{ $product->thumbnail }}" alt="image">
+                                                            </div>
+                                                        </div>
 
+                                                        <div class="px-10 py-10">
+                                                            <h6 class="text-dark-1 text-13 text-wrap fw-600">
+                                                                {{ $product->name }}</h6>
+                                                            <h6 class="text-dark-1 text-13 text-wrap">
+                                                                {{ Str::words($product->description, 15, '...') }}
+                                                                @if (Str::wordCount($product->description) > 15)
+                                                                        <b class="text-primary fw-500">Baca Selengkapnya</b>
+                                                                @endif
+                                                            </h6>
+                                                            <h6 class="text-primary text-12 text-wrap">
+                                                                <i
+                                                                    class="fa-solid fa-hashtag"></i>{{ $product->category_name }}
+                                                                <i
+                                                                    class="fa-solid fa-hashtag"></i>{{ $product->subcategory_name }}
+                                                            </h6>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <div class="px-10 py-10">
+                                            <h6 class="text-secondary text-11 text-wrap" style="font-style: italic">
+                                                Tidak ada produk terkait dengan carousel ini.</h6>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                             <div class="col-12" style="text-align-last: right;">
                                 <a href="{{ route('admin-panel.carousel.index') }}" class="btn btn-light">Kembali</a>

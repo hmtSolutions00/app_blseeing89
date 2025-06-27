@@ -569,7 +569,7 @@ img {
 }
 
 a {
-  color: inherit;
+  /* color: inherit; */
   font-size: inherit;
   line-height: inherit;
   font-weight: inherit;

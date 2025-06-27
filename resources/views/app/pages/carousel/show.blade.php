@@ -52,7 +52,7 @@
 
             <div class="col-12 pt-30 pb-30" style="text-align: -webkit-center;">
                 <div class="col-7 relative d-flex">
-                    <img src="/carousel-images/{{ $carousel->url_images }}" alt="images" class="rounded-4" style="width: -webkit-fill-available; max-height: 400px;">
+                    <img src="/carousel-images/{{ $carousel->url_images }}" alt="images" class="rounded-4" >
                 </div>
             </div>
         </div>

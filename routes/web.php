@@ -3,6 +3,7 @@
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FrontendProdukLayananController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
@@ -13,16 +14,25 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/produk-dan-layanan', [IndexController::class, 'product_layanan'])->name('frontend.products.layanan');
 Route::get('/produk/kategori/{slug}', [IndexController::class, 'categoryProducts'])->name('frontend.products.byCategory');
 
-Auth::routes();
 
-// Route::get('/', function () {
-//     return view('app.pages.index.index');
-// });
+// tujuan pembuatan view sementara nanti akna dihapus
+Route::get('/dummy', [FrontendProdukLayananController::class, 'index'])->name('dummy');
+Route::get('/produk-dan-layanan/{slug}', [FrontendProdukLayananController::class, 'subcategoriesByCategorySlug'])->name('frontend.products.subcategories');
+// Untuk menampilkan produk berdasarkan subkategori
+Route::get('/produk-dan-layanan/{category_slug}/{subcategory_slug}', [FrontendProdukLayananController::class, 'showBySubcategory'])
+    ->name('frontend.products.bySubcategory');
+
 
 
 Route::get('/detail/carousel/{id}', [CarouselController::class, 'detail'])->name('carousel.detail');
+
+
+Auth::routes();
+
+
 
 Route::get('/kelola/produk', function () {
     return view('panel.pages.data_produk.index');

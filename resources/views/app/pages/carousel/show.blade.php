@@ -72,7 +72,7 @@
                     <div class="row y-gap-30 pt-30">
                         @foreach ($related_products as $product)
                             <div class="col-lg-3 col-md-6 col-sm-6">
-                                <a href="#" class="blogCard -type-2 d-block bg-white rounded-4 shadow-4">
+                                <a href="{{ route('frontend.products.show', [$product->slug_category, $product->slug_sub, $product->slug]) }}" class="blogCard -type-2 d-block bg-white rounded-4 shadow-4">
                                     {{-- redirect ke detail product di halaman pemesan --}}
                                     <div class="blogCard__image">
                                         <div class="ratio ratio-1:1 rounded-4">
@@ -80,7 +80,6 @@
                                                 data-src="/{{ $product->thumbnail }}" alt="image">
                                         </div>
                                     </div>
-
                                     <div class="px-10 py-10" style="text-align: left">
                                         <h6 class="text-dark-1 text-16 text-wrap fw-600">
                                             {{ $product->name }}</h6>

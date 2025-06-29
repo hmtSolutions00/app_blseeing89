@@ -23,7 +23,6 @@
                             Produk & Layanan
                         </a>
                     </div>
-
                     <div class="">
                         <a href="/#testimonial_section"
                             class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button "

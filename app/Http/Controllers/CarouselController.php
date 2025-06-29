@@ -20,7 +20,7 @@ class CarouselController extends Controller
             ->join('product_categories', 'product_categories.id', '=', 'product_subcategories.product_category_id')
             ->join('carousel_products', 'products.id', '=', 'carousel_products.product_id')
             ->where('carousel_products.carousel_id', $carousel->id)
-            ->select('products.*', 'product_categories.name as category_name', 'product_subcategories.name as subcategory_name')
+            ->select('products.*', 'product_categories.name as category_name', 'product_subcategories.name as subcategory_name','product_subcategories.slug as slug_sub','product_categories.slug as slug_category')
             ->get();
         return view('app.pages.carousel.show', [
             'carousel' => $carousel,

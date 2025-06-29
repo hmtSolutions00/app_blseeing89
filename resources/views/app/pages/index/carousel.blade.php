@@ -2,9 +2,9 @@
     <div class="row y-gap-60">
         <div class="col-xl-5">
             <h1 data-anim-child="slide-up delay-2" class="z-2 text-60 lg:text-40 md:text-30 text-white pt-80 xl:pt-0">
-                <span class="text-yellow-1">Where Would</span><br>
-                You Like To Go?
-                <p data-anim-child="slide-up delay-3" class="text-white">Start Your Journey with Blessing89 Tour & Travel.</p>
+                <span class="text-yellow-1">All Services for</span><br>
+              Seamless Travel
+                <p data-anim-child="slide-up delay-3" class="text-white">Discover a World of Possibilities with Us</p>
             </h1>
         </div>
         {{-- Carousel --}}

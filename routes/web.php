@@ -5,6 +5,7 @@ use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontendProdukLayananController;
+use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartnerController;
@@ -27,19 +28,21 @@ Route::get('/produk-dan-layanan/{slug}', [FrontendProdukLayananController::class
 // Untuk menampilkan produk berdasarkan subkategori
 Route::get('/produk-dan-layanan/{category_slug}/{subcategory_slug}', [FrontendProdukLayananController::class, 'showBySubcategory'])
     ->name('frontend.products.bySubcategory');
+Route::get('/produk/{category_slug}/{subcategory_slug}/{product_slug}', [FrontendProdukLayananController::class, 'show'])->name('frontend.products.show');
+Route::get('/produk-terbaru-by-subcategory/{slug}', [IndexController::class, 'getLatestProductsBySubcategory']);
+
+// Route Glaeri Show
+Route::get('/galeries', [FrontendProdukLayananController::class, 'listGaleri'])->name('galeri.list');
+Route::get('/galeri/{slug}', [FrontendProdukLayananController::class, 'singleGaleri'])->name('galeri.single');
 
 
 
-Route::get('/detail/carousel/{id}', [CarouselController::class, 'detail'])->name('carousel.detail');
+
+
+
 
 
 Auth::routes();
-
-// Route::get('/', function () {
-//     return view('app.pages.index.index');
-// });
-
-
 Route::get('/detail/carousel/{id}', [CarouselController::class, 'detail'])->name('carousel.detail');
 
 Route::get('/about-us', [AboutUsController::class, 'index2'])->name('aboutus.index');
@@ -59,6 +62,7 @@ Route::prefix('admin-panel')->name('admin-panel.')->middleware(['auth'])->group(
     Route::get('/get-subcategories/{categoryId}', [ProductController::class, 'getSubcategories'])->name('get-subcategories');
 
     Route::get('/get-products/{subcategoryId}', [ProductController::class, 'getProducts']);
+    
     // 2. Grup Rute untuk Produk
     Route::prefix('products')->name('products.')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
@@ -142,6 +146,16 @@ Route::prefix('admin-panel')->name('admin-panel.')->middleware(['auth'])->group(
         Route::get('/{id}/edit', [TestimonialController::class, 'edit'])->name('edit');
         Route::put('/{id}', [TestimonialController::class, 'update'])->name('update');
         Route::get('/delete/{id}', [TestimonialController::class, 'destroy'])->name('destroy');
+    });
+        Route::prefix('/galeri')->name('galeri.')->group(function () {
+        Route::get('/', [GaleriController::class, 'index'])->name('index');
+        Route::get('/create', [GaleriController::class, 'create'])->name('create');
+        Route::post('/', [GaleriController::class, 'store'])->name('store');
+        Route::get('/{id}/detail', [GaleriController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [GaleriController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [GaleriController::class, 'update'])->name('update');
+        Route::get('/delete/{id}', [GaleriController::class, 'destroy'])->name('destroy');
+        Route::get('/image/{id}/delete', [GaleriController::class, 'deleteImage'])->name('image.delete');
     });
 
     // Tambahkan rute admin lainnya di sini...

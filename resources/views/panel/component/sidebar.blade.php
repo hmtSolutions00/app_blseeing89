@@ -96,5 +96,13 @@
                 </a>
             </div>
         </div>
+                <div class="sidebar__item">
+            <div class="sidebar__button">
+                <a href="{{route('admin-panel.galeri.index')}}" class="d-flex items-center text-15 lh-1 fw-500">
+                   <i class="fa-solid fa-camera-retro fa-lg mr-15 text-center" style="width: 24px"></i>
+                    Galeri
+                </a>
+            </div>
+        </div>
     </div>
 </div>

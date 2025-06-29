@@ -4,6 +4,7 @@
   <script src="{{url('assets/js/vendors.js')}}"></script>
   <script src="{{url('assets/js/main.js')}}"></script>
   <script src="{{url('assets/js/lang.js')}}"></script>
+  
   @yield('custom_js')
 
 

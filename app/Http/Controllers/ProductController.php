@@ -194,127 +194,124 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
-    {
-        $request->validate([
-            'product_category_id' => 'required|exists:product_categories,id',
-            'product_subcategory_id' => 'required|exists:product_subcategories,id',
-            'name' => 'required|string|max:255',
-            'price_start' => 'required|numeric',
-            'masa_berlaku' => 'nullable|string|max:255',
-            'description' => 'required|string',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'images' => 'nullable|array|max:5',
-            'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'details' => 'required|array',
-            'details.*.title' => 'required|string|max:255',
-            'details.*.content' => 'nullable|string',
-            'details.*.subdetails' => 'nullable|array',
-            'details.*.subdetails.*.content' => 'required_with:details.*.subdetails|string',
-            'meta_description' => 'nullable|string',
-            'meta_keywords' => 'nullable|string',
-            'meta_og_title' => 'nullable|string',
-            'meta_og_description' => 'nullable|string',
-            'meta_og_type' => 'nullable|string',
-            'slug' => 'nullable|string|max:255',
+  public function update(Request $request, Product $product)
+{
+    $request->validate([
+        'product_category_id' => 'required|exists:product_categories,id',
+        'product_subcategory_id' => 'required|exists:product_subcategories,id',
+        'name' => 'required|string|max:255',
+        'price_start' => 'required|numeric',
+        'masa_berlaku' => 'nullable|string|max:255',
+        'description' => 'required|string',
+        'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'images' => 'nullable|array|max:5',
+        'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+        'details' => 'required|array',
+        'details.*.title' => 'required|string|max:255',
+        'details.*.content' => 'nullable|string',
+        'details.*.subdetails' => 'nullable|array',
+        'details.*.subdetails.*.content' => 'required_with:details.*.subdetails|string',
+        'meta_description' => 'nullable|string',
+        'meta_keywords' => 'nullable|string',
+        'meta_og_title' => 'nullable|string',
+        'meta_og_description' => 'nullable|string',
+        'meta_og_type' => 'nullable|string',
+        'slug' => 'nullable|string|max:255',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+        // === Slug
+        $slugInput = $request->input('slug');
+        $slug = $slugInput ? Str::slug($slugInput) : $product->slug;
+
+        if ($slug !== $product->slug) {
+            $request->validate([
+                'slug' => 'nullable|string|max:255|unique:products,slug,' . $product->id,
+            ]);
+        }
+
+        // === Prepare Data
+        $data = $request->except([
+            '_token', '_method', 'details', 'thumbnail', 'images', 'images_to_remove'
         ]);
 
-        DB::beginTransaction();
+        $data['slug'] = $slug;
+        $data['product_subcategory_id'] = $request->product_subcategory_id;
 
-        try {
-            // === Slug: hanya diubah jika user ubah
-            $slugInput = $request->input('slug');
-            $slug = $slugInput ? Str::slug($slugInput) : $product->slug;
-
-            if ($slug !== $product->slug) {
-                $request->validate([
-                    'slug' => 'nullable|string|max:255|unique:products,slug,' . $product->id,
-                ]);
+        // === Handle Thumbnail
+        if ($request->hasFile('thumbnail')) {
+            if ($product->thumbnail && File::exists(public_path($product->thumbnail))) {
+                File::delete(public_path($product->thumbnail));
             }
+            $file = $request->file('thumbnail');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/produk/thumbnail'), $filename);
+            $data['thumbnail'] = 'uploads/produk/thumbnail/' . $filename;
+        }
 
-            // === Siapkan data
-            $data = $request->except([
-                '_token',
-                '_method',
-                'details',
-                'thumbnail',
-                'images',
-                'images_to_remove'
+        // === Handle Images
+        $currentImages = is_array($product->images)
+            ? $product->images
+            : json_decode($product->images ?? '[]', true);
+
+        if ($request->has('images_to_remove')) {
+            foreach ($request->images_to_remove as $imageToRemove) {
+                if (File::exists(public_path($imageToRemove))) {
+                    File::delete(public_path($imageToRemove));
+                }
+                $currentImages = array_diff($currentImages, [$imageToRemove]);
+            }
+        }
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                $filename = Str::uuid() . '.' . $imageFile->getClientOriginalExtension();
+                $imageFile->move(public_path('uploads/produk/images'), $filename);
+                $currentImages[] = 'uploads/produk/images/' . $filename;
+            }
+        }
+
+        // ✅ Cek jika ada perubahan pada images (tambah/hapus)
+        if ($request->hasFile('images') || $request->has('images_to_remove')) {
+            $data['images'] = json_encode(array_values($currentImages));
+        }
+
+        // === Update Produk
+        $product->update($data);
+        $product->refresh();
+
+        // === Hapus detail lama
+        foreach ($product->details as $detail) {
+            $detail->subDetails()->delete();
+        }
+        $product->details()->delete();
+
+        // === Simpan detail dan subdetail baru
+        foreach ($request->details as $detailData) {
+            $productDetail = $product->details()->create([
+                'title' => $detailData['title'],
+                'content' => $detailData['content'] ?? null,
             ]);
 
-            $data['slug'] = $slug;
-            $data['product_subcategory_id'] = $request->product_subcategory_id;
-
-            // === Thumbnail
-            if ($request->hasFile('thumbnail')) {
-                if ($product->thumbnail && File::exists(public_path($product->thumbnail))) {
-                    File::delete(public_path($product->thumbnail));
-                }
-                $file = $request->file('thumbnail');
-                $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads/produk/thumbnail'), $filename);
-                $data['thumbnail'] = 'uploads/produk/thumbnail/' . $filename;
-            }
-
-            // === Images
-            $currentImages = is_array($product->images)
-                ? $product->images
-                : json_decode($product->images ?? '[]', true);
-
-            if ($request->has('images_to_remove')) {
-                foreach ($request->images_to_remove as $imageToRemove) {
-                    if (File::exists(public_path($imageToRemove))) {
-                        File::delete(public_path($imageToRemove));
-                    }
-                    $currentImages = array_diff($currentImages, [$imageToRemove]);
+            if (!empty($detailData['subdetails'])) {
+                foreach ($detailData['subdetails'] as $subDetailData) {
+                    $productDetail->subDetails()->create([
+                        'content' => $subDetailData['content'],
+                    ]);
                 }
             }
-
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $imageFile) {
-                    $filename = Str::uuid() . '.' . $imageFile->getClientOriginalExtension();
-                    $imageFile->move(public_path('uploads/produk/images'), $filename);
-                    $currentImages[] = 'uploads/produk/images/' . $filename;
-                }
-            }
-
-            $data['images'] = array_values($currentImages); // tetap array, bukan json string
-
-            // === Update produk
-            $product->update($data);
-            $product->refresh(); // jaga-jaga ID dan relasi terupdate
-            // dd($product->id, $product->wasRecentlyCreated, $product->exists);
-
-            // === Hapus sub-detail dulu, lalu detail
-            foreach ($product->details as $detail) {
-                $detail->subDetails()->delete();
-            }
-            $product->details()->delete();
-
-            // === Simpan detail dan subdetail baru
-            foreach ($request->details as $detailData) {
-                $productDetail = $product->details()->create([
-                    'title' => $detailData['title'],
-                    'content' => $detailData['content'] ?? null,
-                ]);
-
-                if (!empty($detailData['subdetails'])) {
-                    foreach ($detailData['subdetails'] as $subDetailData) {
-                        $productDetail->subDetails()->create([
-                            'content' => $subDetailData['content'],
-                        ]);
-                    }
-                }
-            }
-
-            DB::commit();
-            return redirect()->route('admin-panel.products.index')->with('success', 'Produk berhasil diperbarui.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            dd($e->getMessage()); // Debug sementara
-            // return redirect()->back()->with('error', 'Gagal update produk: ' . $e->getMessage())->withInput();
         }
+
+        DB::commit();
+        return redirect()->route('admin-panel.products.index')->with('success', 'Produk berhasil diperbarui.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        dd($e->getMessage()); // untuk debugging
     }
+}
+
 
     /**
      * Remove the specified resource from storage.

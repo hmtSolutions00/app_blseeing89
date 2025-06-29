@@ -27,7 +27,7 @@
         <div class="container">
             <div class="row y-gap-30 justify-between items-center">
                 <div class="col-lg-5">
-                    <h2 class="text-30 fw-600">About GoTrip.com</h2>
+                    <h2 class="text-30 fw-600">Blessing89 Tour Travel</h2>
                     <p class="mt-5">{{ $about_us->title }}</p>
 
                     <p class="text-dark-1 mt-40 lg:mt-40 md:mt-20">

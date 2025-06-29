@@ -54,54 +54,53 @@ class CarouselController extends Controller
         ]);
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'judul' => 'required',
-            'url_images' => 'required',
-            'thumbnail' => 'required',
-            'deskripsi' => 'required',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'judul' => 'required',
+        'url_images' => 'required',
+        'thumbnail' => 'required',
+        'deskripsi' => 'required',
+    ]);
 
-        if ($request->file('url_images')) {
-            if ($request->hasfile('url_images')) {
-                $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('url_images')->getClientOriginalName());
-                $request->file('url_images')->move(public_path('carousel-images'), $filename);
-            }
-        }
+    // Upload image utama
+    if ($request->file('url_images')) {
+        $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('url_images')->getClientOriginalName());
+        $request->file('url_images')->move(public_path('carousel-images'), $filename);
+    }
 
-        if ($request->file('thumbnail')) {
-            if ($request->hasfile('thumbnail')) {
-                $file_thumbnail = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('thumbnail')->getClientOriginalName());
-                $request->file('thumbnail')->move(public_path('carousel-images'), $file_thumbnail);
-            }
-        }
+    // Upload thumbnail
+    if ($request->file('thumbnail')) {
+        $file_thumbnail = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('thumbnail')->getClientOriginalName());
+        $request->file('thumbnail')->move(public_path('carousel-images'), $file_thumbnail);
+    }
 
-        Carousel::create([
-            'judul' => $request->judul,
-            'url_images' => $filename,
-            'thumbnail' => $file_thumbnail,
-            'deskripsi' => $request->deskripsi,
-            'meta_description' => $request->meta_description,
-            'meta_keywords' => $request->meta_keywords,
-            'meta_og_title' => $request->meta_og_title,
-            'meta_og_description' => $request->meta_og_description,
-            'meta_og_type' => $request->meta_og_type
-        ]);
+    // Simpan ke tabel Carousel
+    $carousel = Carousel::create([
+        'judul' => $request->judul,
+        'url_images' => $filename ?? null,
+        'thumbnail' => $file_thumbnail ?? null,
+        'deskripsi' => $request->deskripsi,
+        'meta_description' => $request->meta_description,
+        'meta_keywords' => $request->meta_keywords,
+        'meta_og_title' => $request->meta_og_title,
+        'meta_og_description' => $request->meta_og_description,
+        'meta_og_type' => $request->meta_og_type
+    ]);
 
-        $latest_carousel = Carousel::orderBy('created_at', 'desc')->first();
-        $product_id = $request->product_id;
-
-        foreach ($product_id as $product) {
+    // Cek apakah product_id dikirim dan berisi array
+    if ($request->has('product_id') && is_array($request->product_id)) {
+        foreach ($request->product_id as $product) {
             CarouselProduct::create([
-                "product_id" => $product,
-                'carousel_id' => $latest_carousel->id
+                'product_id' => $product,
+                'carousel_id' => $carousel->id
             ]);
         }
-
-
-        return redirect()->route('admin-panel.carousel.index')->with('success', 'Data Carousel berhasil ditambahkan.');
     }
+
+    return redirect()->route('admin-panel.carousel.index')->with('success', 'Data Carousel berhasil ditambahkan.');
+}
+
 
     public function show($id)
     {

@@ -17,7 +17,6 @@ class ProductCategory extends Model
         'meta_og_description', 
         'meta_og_type'
                ];
-
     public function subcategories()
     {
         return $this->hasMany(ProductSubcategory::class);

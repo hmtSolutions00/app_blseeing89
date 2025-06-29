@@ -25,27 +25,27 @@
           </div>
 
                     <div class="">
-                        <button class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button " data-tab-target=".-tab-item-3">
-                            <i class="fa-solid fa-star text-20 mr-10 sm:mr-5"></i> Testimoni </button>
+                        <a href="#testimonial_section" class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button " data-tab-target=".-tab-item-3">
+                            <i class="fa-solid fa-star text-20 mr-10 sm:mr-5"></i> Testimoni </a>
                     </div>
 
           <div>
-            <a href="#"
+            <a href="{{route('galeri.list')}}"
                class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button {{ $currentRoute === 'frontend.galeri' ? 'is-tab-el-active' : '' }}">
               <i class="fa-solid fa-image text-20 mr-10 sm:mr-5"></i>
               Galeri
             </a>
           </div>
           <div>
-            <a href="#"
-               class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button {{ $currentRoute === 'frontend.tentang' ? 'is-tab-el-active' : '' }}">
+        <a href="{{route('aboutus.index')}}"
+               class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button {{ $currentRoute === 'aboutus.index' ? 'is-tab-el-active' : '' }}">
               <i class="fa-solid fa-circle-info text-20 mr-10 sm:mr-5"></i>
               Tentang Kami
             </a>
           </div>
 
           <div>
-            <a href="#"
+            <a href="{{route('aboutus.index')}}"
                class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button {{ $currentRoute === 'frontend.kontak' ? 'is-tab-el-active' : '' }}">
               <i class="fa-solid fa-phone text-20 mr-10 sm:mr-5"></i>
               Hubungi Kami

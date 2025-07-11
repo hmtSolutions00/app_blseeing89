@@ -1,6 +1,6 @@
 @extends('app.layouts.index')
 
-@section('custom_css')
+@push('custom_css')
 <style>
   .category-grid {
     display: grid;
@@ -69,7 +69,7 @@
     }
   }
 </style>
-@endsection
+@endpush
 
 @section('content')
 <section class="py-10 d-flex items-center bg-light-2">

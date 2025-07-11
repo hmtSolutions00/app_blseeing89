@@ -1,6 +1,6 @@
 @extends('app.layouts.index')
 
-@section('custom_css')
+@push('custom_css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
   .product-image-slider {
@@ -19,7 +19,7 @@
     }
   }
 </style>
-@endsection
+@endpush
 
 @section('content')
 <!-- Breadcrumb Navigasi -->
@@ -222,7 +222,7 @@
 </section>
 @endsection
 
-@section('custom_js')
+@push('custom_js')
 <script>
   function sharePage() {
     if (navigator.share) {
@@ -246,4 +246,4 @@
     },
   });
 </script>
-@endsection
+@endpush

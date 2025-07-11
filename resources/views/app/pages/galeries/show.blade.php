@@ -1,5 +1,22 @@
 @extends('app.layouts.index')
+@push('dynamic_tag')
+    <title>{{ $galeri->judul }} | Blessing89 Tour Travel</title>
+    <meta name="description" content="{{ $galeri->meta_description }}">
+    <meta name="keywords" content="{{ $galeri->meta_keywords }}">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $galeri->meta_og_title }} | Blessing89 Tour Travel">
+    <meta property="og:description" content="{{ $galeri->meta_og_description }}">
+   <meta property="og:image" content="{{ asset( $galeri->thumbnail) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="{{$galeri->meta_og_type}}">
+    <meta property="og:site_name" content="Blessing89 Tour Travel">
 
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Blessing89Travel">
+    <meta name="twitter:title" content="{{ $galeri->meta_og_title }}| Blessing89 Tour Travel">
+    <meta name="twitter:description" content="{{ $galeri->meta_og_description }}">
+    <meta name="twitter:image" content="{{ asset( $galeri->thumbnail) }}">
+@endpush
 @section('content')
 <section class="py-10 d-flex items-center bg-light-2">
     <div class="container">

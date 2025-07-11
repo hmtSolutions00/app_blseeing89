@@ -1,6 +1,24 @@
 @extends('app.layouts.index')
 
-@section('custom_css')
+@push('dynamic_tag')
+    <title>{{ $category->name }} | Blessing89 Tour Travel</title>
+    <meta name="description" content="{{ $category->meta_description }}">
+    <meta name="keywords" content="{{ $category->meta_keywords }}">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $category->meta_og_title }} | Blessing89 Tour Travel">
+    <meta property="og:description" content="{{ $category->meta_og_description }}">
+   <meta property="og:image" content="{{ asset($category->thumbnail) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="{{ $category->meta_og_type }}">
+    <meta property="og:site_name" content="Blessing89 Tour Travel">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Blessing89Travel">
+    <meta name="twitter:title" content="{{ $category->meta_og_title }}| Blessing89 Tour Travel">
+    <meta name="twitter:description" content="{{ $category->meta_og_description }}">
+    <meta name="twitter:image" content="{{ asset( $category->thumbnail) }}">
+@endpush
+@push('custom_css')
     <style>
         .category-grid {
             display: grid;
@@ -87,7 +105,7 @@
             }
         }
     </style>
-@endsection
+@endpush
 
 @section('content')
     <section class=" d-flex items-center bg-light-2">
@@ -163,7 +181,9 @@
             </div>
         </div>
     </section>
-@section('custom_js')
+
+@endsection
+@push('custom_js')
     <script>
         function sharePage() {
             if (navigator.share) {
@@ -179,5 +199,4 @@
             }
         }
     </script>
-@endsection
-@endsection
+@endpush

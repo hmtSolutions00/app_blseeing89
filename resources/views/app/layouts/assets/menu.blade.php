@@ -46,13 +46,6 @@
                     </div>
 
                     <div>
-                        <a href="{{ route('aboutus.index') }}"
-                            class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button {{ $currentRoute === 'frontend.kontak' ? 'is-tab-el-active' : '' }}">
-                            <i class="fa-solid fa-phone text-20 mr-10 sm:mr-5"></i>
-                            Hubungi Kami
-                        </a>
-                    </div>
-                    <div>
                         <a href="#"
                             class="tabs__button px-30 py-20 sm:px-20 sm:py-15 rounded-4 fw-600 text-white js-tabs-button {{ $currentRoute === 'frontend.panduan' ? 'is-tab-el-active' : '' }}">
                             <i class="fa-solid fa-book-open text-20 mr-10 sm:mr-5"></i>

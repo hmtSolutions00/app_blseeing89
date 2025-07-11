@@ -1,6 +1,7 @@
 @extends('app.layouts.index')
-@section('custom_css')
+@push('custom_css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
     <style>
         @media (max-width: 576px) {
             .product-category-card {
@@ -63,20 +64,40 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .category-card .text-14 {
-            height: 42px;
-            /* batasi tinggi (misal 2 baris teks) */
-            overflow-y: auto;
-            font-size: 14px;
-            line-height: 1.2;
-        }
+      .category-card .text-14 {
+    /* Izinkan teks untuk turun baris */
+    white-space: normal;
+    
+    /* Gunakan min-height agar tinggi bisa menyesuaikan, 
+       sekaligus menjaga layout tetap rapi untuk teks pendek */
+    min-height: 2.4em; /* setara dengan 2 baris (1.2 * 2) */
+    
+    /* Hapus overflow agar tidak ada scrollbar */
+    overflow: hidden; 
+    
+    /* Properti lain tetap sama */
+    font-size: 14px;
+    line-height: 1.2;
+
+    /* Optional: untuk memastikan teks rata tengah secara vertikal */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Batasi maksimal 3 baris */
+    -webkit-box-orient: vertical;
+}
     </style>
-@endsection
+@endpush
 @section('content')
     {{-- Kategori Produk dan layanan kami --}}
     @include('app.pages.index.categories')
     {{-- End Kategori Produk dan kayanan kami --}}
+
+    {{-- Promotion Video --}}
+    @include('app.pages.index.promotion')
+    {{-- End Promotion video --}}
+
+    {{-- Product Terbaru --}}
     @include('app.pages.index.products')
+    {{-- End Product Terbaru --}}
 
     <section class="layout-pt-lg layout-pb-lg bg-dark-3" id="testimonial_section">
         <div class="container">
@@ -208,22 +229,25 @@
 
 @endsection
 
-@section('custom_js')
+@push('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script>
-        const mastheadImageCarousel = new Swiper('#mastheadImageCarouselOnly', {
-            loop: true,
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-            },
-            speed: 600,
-            slidesPerView: 1,
-            effect: 'slide', // efek geser ke samping
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
+        // Pastikan HTML sudah siap sebelum menjalankan script
+        document.addEventListener('DOMContentLoaded', function() {
+            const mastheadImageCarousel = new Swiper('#mastheadImageCarouselOnly', {
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                },
+                speed: 600,
+                slidesPerView: 1,
+                effect: 'slide',
+                pagination: {
+                    el: '.swiper-pagination', // Sekarang elemen ini ada
+                    clickable: true,
+                },
+            });
         });
     </script>
-@endsection
+@endpush

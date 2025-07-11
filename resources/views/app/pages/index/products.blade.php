@@ -79,8 +79,7 @@
     </div>
   </div>
 </section>
-
-@section('custom_js')
+@push('custom_js')
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const tabButtons = document.querySelectorAll(".tabs__button");
@@ -147,4 +146,5 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
-@endsection
+@endpush
+

@@ -1,13 +1,4 @@
-<section class="layout-pt-md layout-pb-lg">
-  <div data-anim-wrap class="container">
-    <div class="tabs -pills-2 js-tabs">
-      <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
-        <div class="col-auto">
-          <div class="sectionTitle -md">
-            <h2 class="sectionTitle__title">Produk Terbaru</h2>
-            <p class="sectionTitle__text mt-5 sm:mt-0">Temukan Produk Terbaru Kami Disini</p>
-          </div>
-        </div>
+
 <section class="layout-pt-md layout-pb-lg">
   <div data-anim-wrap class="container">
     <div class="tabs -pills-2 js-tabs">

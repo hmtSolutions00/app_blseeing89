@@ -1,4 +1,4 @@
-  <div class="preloader js-preloader">
+  {{-- <div class="preloader js-preloader">
       <div class="preloader__wrap">
           <div class="preloader__icon">
               <img src="{{ url('assets/images/logo.png') }}" alt="Blessing 89 Logo" width="80" height="80"
@@ -7,4 +7,4 @@
       </div>
 
       <div class="preloader__title">....</div>
-  </div>
+  </div> --}}

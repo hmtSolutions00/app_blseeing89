@@ -48,6 +48,7 @@ body {
     max-width: 100%;
     height: auto;
     display: block;
+    
 }
 
 /* --- Penyesuaian Khusus Mobile (di bawah ini) --- */

@@ -41,6 +41,9 @@
                     <h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
                       <span>{{ $product['name'] }}</span>
                     </h4>
+                    <p class="text-light-1 lh-14 text-14 mt-5">
+                                    {{ \Illuminate\Support\Str::words(strip_tags($product['description']), 12, '...') }}
+                                </p>
                   </div>
                 </a>
               </div>

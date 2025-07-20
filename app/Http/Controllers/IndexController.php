@@ -35,6 +35,7 @@ public function index()
             'id' => $product->id,
             'name' => $product->name,
             'slug' => $product->slug,
+            'description' => $product->description,
             'price_start' => $product->price_start,
             'thumbnail' => asset($product->thumbnail),
             'subcategory_slug' => $product->subcategory->slug ?? null,
@@ -49,6 +50,7 @@ public function index()
     $carousels = Carousel::all();
     $partners = Partner::all();
     $testimonials = Testimonial::where('is_published', true)->get();
+  
 
     return view('app.pages.index.index', compact(
         'categories',

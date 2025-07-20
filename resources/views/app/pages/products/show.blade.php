@@ -92,13 +92,6 @@
 
                     <div class="col-auto">
                         <div class="row x-gap-15 y-gap-15 items-center">
-                            <div class="col-auto">
-                                <div class="text-14">
-                                    From
-                                    <span class="text-22 text-dark-1 fw-500">Rp.
-                                        {{ number_format($product->price_start, 0, ',', '.') }} </span>
-                                </div>
-                            </div>
                             @php
                                 $whatsappNumber = '6285880789089';
 
@@ -119,9 +112,9 @@
 
 
                             <div class="col-auto">
-                                <a href="{{ $whatsappLink }}" class="button h-50 px-24 -dark-1 bg-blue-1 text-white"
+                                <a href="{{ $whatsappLink }}" class="button h-34 px-24 -dark-1 bg-blue-1 text-white"
                                     target="_blank">
-                                    Pesan Sekarang &nbsp;<i class="fab fa-whatsapp text-white mr-10"></i>
+                                    <small>Pesan Sekarang</small><i class="fab fa-whatsapp text-white mr-10"></i>
                                 </a>
 
                             </div>
@@ -171,14 +164,6 @@
                 <div class="col-auto">
                     <div class="row x-gap-15 y-gap-15 items-center">
                         <div class="col-auto">
-                            <div class="text-14">
-                                From
-                                <span class="text-22 text-dark-1 fw-500"> Rp.
-                                    {{ number_format($product->price_start, 0, ',', '.') }} </span>
-                            </div>
-                        </div>
-
-                        <div class="col-auto">
 
                             <a href="{{ $whatsappLink }}" class="button h-50 px-24 -dark-1 bg-blue-1 text-white"
                                 target="_blank">
@@ -189,30 +174,62 @@
                     </div>
                 </div>
             </div>
-
-            <div class="galleryGrid -type-1 pt-30">
-                {{-- Aakan dimunculkan apabila tampilan PC/resolusi laptop di android di hide --}}
-                @foreach ($product->images as $image)
-                    <div class="galleryGrid__item">
-                        <img src="{{ asset($image) }}" alt="image" class="rounded-4">
-                    </div>
-                @endforeach
-                {{-- End dimunculkan apabial di pc resolusi --}}
-
+{{-- ✅ DESKTOP --}}
+<div class="only-desktop">
+    <div class="galleryGrid -type-1 pt-30">
                 <div class="galleryGrid__item relative d-flex">
-                    <img src="{{ url($product->thumbnail) }}" alt="image" class="rounded-8">
+            <img src="{{ url($product->thumbnail) }}" alt="image" class="rounded-8">
 
-                    <div class="absolute px-10 py-10 col-12 h-full d-flex justify-end items-end">
-                        <a href="{{ asset($product->thumbnail) }}"
-                            class="button -blue-1 px-24 py-15 bg-white text-dark-1 js-gallery" data-gallery="gallery2">
-                            Semua Gambar
-                        </a>
-                        @foreach ($product->images as $image)
-                            <a href="{{ url($image) }}" class="js-gallery" data-gallery="gallery2"></a>
-                        @endforeach
-                    </div>
-                </div>
+            <div class="absolute px-10 py-10 col-12 h-full d-flex justify-end items-end">
+                <a href="{{ asset($product->thumbnail) }}"
+                    class="button -blue-1 px-24 py-15 bg-white text-dark-1 js-gallery"
+                    data-gallery="gallery2">
+                    Semua Gambar
+                </a>
+                @foreach ($product->images as $image)
+                    <a href="{{ url($image) }}" class="js-gallery" data-gallery="gallery2"></a>
+                @endforeach
             </div>
+        </div>
+        {{-- Semua gambar ditampilkan --}}
+        @foreach ($product->images as $image)
+            <div class="galleryGrid__item">
+                <img src="{{ asset($image) }}" alt="image" class="rounded-4">
+            </div>
+        @endforeach
+
+
+    </div>
+</div>
+
+{{-- ✅ MOBILE --}}
+<div class="only-mobile">
+    <div class="galleryGrid -type-1 pt-30">
+                <div class="galleryGrid__item relative d-flex">
+            <img src="{{ url($product->thumbnail) }}" alt="image" class="rounded-8">
+
+            <div class="absolute px-10 py-10 col-12 h-full d-flex justify-end items-end">
+                <a href="{{ asset($product->thumbnail) }}"
+                    class="button -blue-1 px-24 py-15 bg-white text-dark-1 js-gallery"
+                    data-gallery="gallery2">
+                    Semua Gambar
+                </a>
+                @foreach ($product->images as $image)
+                    <a href="{{ url($image) }}" class="js-gallery" data-gallery="gallery2"></a>
+                @endforeach
+            </div>
+        </div>
+        {{-- Semua gambar ditampilkan --}}
+        @if (!empty($product->images) && isset($product->images[0]))
+            <div class="galleryGrid__item">
+                <img src="{{ asset($product->images[0]) }}" alt="image" class="rounded-4">
+            </div>
+          @endif
+
+    </div>
+</div>
+
+        
         </div>
     </section>
 
@@ -264,44 +281,14 @@
                                 {!! $product->description !!}
                             </p>
                         </div>
-
-                        <div class="col-12" id="details">
-                            <h3 class="text-22 fw-500 pt-40 border-top-light">Itinerary Produk</h3>
-                            <div class="row y-gap-10 pt-20">
-
-                                <div class="col-lg-12">
-                                    <div class="accordion -simple row y-gap-20 js-accordion">
-                                        @foreach ($product->details as $detail)
-                                            <div class="col-12">
-                                                <div class="accordion__item px-20 py-20 border-light rounded-4">
-                                                    <div class="accordion__button d-flex items-center">
-                                                        <div
-                                                            class="accordion__icon size-40 flex-center bg-light-2 rounded-full mr-20">
-                                                            <i class="icon-plus"></i>
-                                                            <i class="icon-minus"></i>
-                                                        </div>
-                                                        <div class="button text-dark-1">{{ $detail->title }}</div>
-                                                    </div>
-                                                    <div class="accordion__content">
-                                                        <div class="pt-20 pl-60">
-                                                            @foreach ($detail->subDetails as $sub)
-                                                                <div class="d-flex items-center">
-                                                                    <div
-                                                                        class="d-flex justify-center items-center border-light rounded-full size-20 mr-10">
-                                                                        <i class="icon-check text-6"></i>
-                                                                    </div>
-                                                                    <p class="text-15 text-dark-1">{{ $sub->content }}</p>
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
+                        <div id="#details" class="col-12">
+                            <h3 class="text-22 fw-500 pt-40 border-top-light">Detail & Itinerary</h3>
+                            <p class="text-dark-1 text-15 mt-20">
+                                {!! $product->full_detail !!}
+                            </p>
                         </div>
+
+                        
 
                     </div>
                 </div>
@@ -317,9 +304,9 @@
                             </div>
 
                             <div class="row y-gap-20 pt-30">
-                                <div class="col-12">
+                                <div class="row col-12">
                                     @foreach ($relatedProducts as $related)
-                                        <div class="col-xl-3 col-lg-3 col-sm-6 product-col">
+                                        <div class="col-6 col-lg-12 product-col">
                                             <div class="hotelsCard -type-1">
                                                 <div class="hotelsCard__image">
                                                     <div class="cardImage ratio ratio-1:1">
@@ -330,16 +317,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="hotelsCard__content mt-10">
-                                                    <h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
+                                                    <h4 class="hotelsCard__title text-dark-1 text-15 lh-16 fw-500">
                                                         <a
                                                             href="{{ route('frontend.products.show', [$category->slug, $subcategory->slug, $related->slug]) }}">
                                                             {{ $related->name }}
                                                         </a>
                                                     </h4>
-                                                    <div class="mt-5">
-                                                        Start from <span class="text-blue-1">
-                                                            Rp.{{ number_format($product->price_start, 0, ',', '.') }}</span>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

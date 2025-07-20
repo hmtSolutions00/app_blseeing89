@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-x="html" data-x-toggle="html-overflow-hidden">
+<html lang="id" data-x="html" data-x-toggle="html-overflow-hidden">
 
 <head>
     <!-- meta tags default for all-->

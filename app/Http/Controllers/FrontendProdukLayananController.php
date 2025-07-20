@@ -76,7 +76,6 @@ public function show($category_slug, $subcategory_slug, $product_slug)
 
     $product = Product::where('slug', $product_slug)
         ->where('product_subcategory_id', $subcategory->id)
-        ->with(['details.subDetails'])
         ->firstOrFail();
 
     // ✅ Force decode jika casting gagal

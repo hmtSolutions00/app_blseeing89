@@ -17,8 +17,12 @@ class IndexController extends Controller
      * Display a listing of the resource.
      */
 public function index()
-{
-    $categories = ProductCategory::with('subcategories')->withCount('products')->get();
+{    
+    $categories = ProductCategory::with('subcategories')
+    ->withCount('products')
+    ->orderBy('sortir')
+    ->get()
+    ->groupBy('label');
     $subcategories = ProductSubcategory::select('id', 'name', 'slug')->get();
 
     // Ambil 4 produk terbaru untuk tab "All"
@@ -85,12 +89,21 @@ public function getLatestProductsBySubcategory($slug)
 }
 
 
-public function product_layanan(){
-        $categories = ProductCategory::with('subcategories')
+public function product_layanan()
+{
+    $tourCategories = ProductCategory::with('subcategories')
         ->withCount('products')
+        ->where('label', 'tour')
         ->get();
-        return view('app.pages.products.categories', compact('categories'));
+
+    $pendukungCategories = ProductCategory::with('subcategories')
+        ->withCount('products')
+        ->where('label', 'pendukung_tour')
+        ->get();
+
+    return view('app.pages.products.categories', compact('tourCategories', 'pendukungCategories'));
 }
+
 
     public function privacyPolicy(){
         return view ('app.pages.other.privacy');

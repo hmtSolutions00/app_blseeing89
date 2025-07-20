@@ -104,14 +104,9 @@
                                                 <td class="text-blue-1 fw-500">{{ $product->name }}</td>
                                                 <td>{{ $product->subcategory->category->name ?? '-' }}</td>
                                                 <td>{{ $product->subcategory->name ?? '-' }}</td>
-                                                <td>{{ $product->price_start ? 'Rp ' . number_format($product->price_start, 0, ',', '.') : '-' }}</td>
+                                                <td>{{ $product->price_start}}</td>
                                                 <td>
                                                     <div class="row x-gap-10 y-gap-10 items-center">
-                                                        <div class="col-auto">
-                                                            <a href="{{ route('admin-panel.products.show', $product->id) }}" class="flex-center bg-light-2 rounded-4 size-35" title="Detail">
-                                                                <i class="icon-eye text-16 text-light-1"></i>
-                                                            </a>
-                                                        </div>
                                                         <div class="col-auto">
                                                             <a href="{{ route('admin-panel.products.edit', $product->id) }}" class="flex-center bg-light-2 rounded-4 size-35" title="Edit">
                                                                 <i class="icon-edit text-16 text-light-1"></i>

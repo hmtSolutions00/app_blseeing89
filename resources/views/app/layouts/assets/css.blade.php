@@ -14,7 +14,7 @@ html[lang="en"] .skiptranslate {
 
 /* 2. Hapus spasi kosong yang ditinggalkan banner di atas body */
 body {
-    top: 0px !important;
+    top:0px !important;
 }
    /* Styling yang sudah ada */
 .lang-selector button {
@@ -38,7 +38,7 @@ body {
 }
 
 .lang-selector img {
-    border: 1px solid #ddd; /* Border tipis di sekitar bendera */
+   
     border-radius: 2px; /* Sedikit rounded corner */
     box-shadow: 0 0 3px rgba(0,0,0,0.2);
 }
@@ -118,6 +118,18 @@ body {
     .col-6 h2 {
         font-size: 0.8rem; /* Further reduce font size for very small screens */
     }
+}
+/* Atur gaya default untuk semua ukuran layar */
+#lang-word {
+  font-size: 14px; /* Ukuran font normal sesuai kelas .text-14 */
+  vertical-align: middle; /* Membantu teks tetap sejajar dengan gambar */
+}
+
+/* Terapkan gaya ini hanya untuk layar dengan lebar MAKSIMAL 767px (mobile) */
+@media (max-width: 767.98px) {
+  #lang-word {
+    font-size: 4px; /* 👈 Ubah ukuran font menjadi lebih kecil di mobile */
+  }
 }
 </style>
   @stack('custom_css')

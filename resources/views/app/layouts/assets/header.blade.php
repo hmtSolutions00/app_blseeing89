@@ -10,8 +10,10 @@
                 <div class="col-6 mr-30">
                     <h2 class="text-yellow-1">Blessing89 Tour & Travel</h2>
                 </div>
-                <div class="col-1 d-flex justify-content-end align-items-center">
+                <div class="col-4 d-flex justify-content-end align-items-center">
                     <div class="d-flex items-center text-14 text-white gap-2 lang-selector">
+                        {{-- Tulisan bahasa ini saya ingin buat agar mengecil dan teteap terlihat saat di tampilkan android --}}
+                         <span id="lang-word" class="text-white">Bahasa</span>&nbsp;
                         {{-- Tombol Bendera Indonesia --}}
                         <button class="lang-option-btn" data-lang="id">
                             <img src="{{ asset('uploads/lang/indonesia.png') }}" alt="Indonesia Flag" width="24" height="16">

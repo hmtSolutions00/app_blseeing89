@@ -62,8 +62,8 @@
                         {{-- Harga Mulai --}}
                         <div class="col-md-6">
                             <div class="form-input">
-                                <input type="number" name="price_start" required value="{{ old('price_start') }}">
-                                <label class="lh-1 text-16 text-light-1">Harga Mulai (Contoh: 1500000)</label>
+                                <input type="text" name="price_start"  value="{{ old('price_start') }}">
+                                <label class="lh-1 text-16 text-light-1">Harga Mulai Dari</label>
                             </div>
                         </div>
 
@@ -71,7 +71,7 @@
                         <div class="col-md-6">
                             <div class="form-input">
                                 <input type="text" name="masa_berlaku" value="{{ old('masa_berlaku') }}">
-                                <label class="lh-1 text-16 text-light-1">Masa Berlaku (Contoh: Sampai 31 Des 2025)</label>
+                                <label class="lh-1 text-16 text-light-1">Masa Berlaku</label>
                             </div>
                         </div>
 
@@ -84,7 +84,18 @@
                         </div>
                     </div>
                 </div>
-
+                      {{-- FULL DETAIL --}}
+                <div class="border-top-light mt-30 mb-30"></div>
+                <div class="col-xl-12">
+                       <label>Detail Produk Lengkap</label>
+                    <div class="form-input">
+                     
+                        <textarea name="full_detail" id="full_detail" class="{{ $errors->has('full_detail') ? 'is-invalid' : '' }}">{{ old('full_detail') }}</textarea>
+                        @error('full_detail')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
                 {{-- UPLOAD GAMBAR --}}
                 <div class="border-top-light mt-30 mb-30"></div>
                 <div class="col-xl-10">
@@ -109,19 +120,7 @@
                     </div>
                 </div>
 
-                {{-- DETAIL & SUB-DETAIL DINAMIS (ITINERARY / FASILITAS) --}}
-                <div class="border-top-light mt-30 mb-30"></div>
-                <div class="col-xl-12">
-                    <div class="d-flex justify-content-between items-center mb-10">
-                        <div class="text-18 fw-500">Detail Produk (Itinerary, Fasilitas, dll)</div>
-                        <button type="button" id="add-detail" class="button h-40 px-24 -dark-1 bg-blue-1 text-white">
-                            <i class="icon-plus text-16 mr-10"></i> Tambah Detail
-                        </button>
-                    </div>
-                    <div id="details-container">
-                        {{-- Kontainer untuk detail dinamis --}}
-                    </div>
-                </div>
+                
 
 
                 {{-- Meta Data SEO --}}
@@ -136,7 +135,7 @@
                 <input type="text" name="slug" id="slug" value="{{ old('slug') }}">
                 <label for="slug" class="lh-1 text-16 text-light-1">Slug (URL)</label>
             </div>
-            <div class="text-13 text-light-1 mt-5">Kosongkan agar dibuat otomatis dari nama produk.</div>
+          
         </div>
 
         {{-- Meta Description --}}
@@ -192,54 +191,22 @@
     </div>
 </div>
 
-{{-- TEMPLATE UNTUK DETAIL & SUB-DETAIL (DISEMBUNYIKAN) --}}
-<template id="detail-template">
-    <div class="detail-item py-20 px-20 rounded-4 border-light mt-20">
-        <div class="row y-gap-20 items-center">
-            <div class="col">
-                <div class="form-input">
-                    <input type="text" name="details[__INDEX__][title]" required>
-                    <label class="lh-1 text-16 text-light-1">Judul Detail (Contoh: Itinerary Hari Ke-1)</label>
-                </div>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="button size-40 bg-red-1 text-white" onclick="removeDetail(this)">
-                    <i class="icon-trash-2 text-16"></i>
-                </button>
-            </div>
-            <div class="col-12">
-                 <div class="form-input">
-                    <textarea name="details[__INDEX__][content]" rows="3"></textarea>
-                    <label class="lh-1 text-16 text-light-1">Deskripsi Detail (Opsional)</label>
-                </div>
-            </div>
-        </div>
-        <div class="subdetails-container mt-20 ml-30">
-            {{-- Kontainer untuk sub-detail dinamis --}}
-        </div>
-        <button type="button" class="button h-30 px-20 -dark-1 bg-light-2 text-dark-1 mt-15" onclick="addSubDetail(this, __INDEX__)">
-            <i class="icon-plus text-12 mr-10"></i> Tambah Sub-Detail
-        </button>
-    </div>
-</template>
 
-<template id="subdetail-template">
-    <div class="subdetail-item d-flex items-center mt-15">
-        <div class="form-input flex-grow-1">
-            <input type="text" name="details[__DETAIL_INDEX__][subdetails][__SUB_INDEX__][content]" required>
-            <label class="lh-1 text-16 text-light-1">Isi Sub-Detail</label>
-        </div>
-        <div class="ml-10">
-             <button type="button" class="button size-30 bg-red-1 text-white" onclick="removeSubDetail(this)">
-                <i class="icon-trash-2 text-12"></i>
-            </button>
-        </div>
-    </div>
-</template>
 
 @endsection
 
 @push('custom_js')
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+    // Inisialisasi CKEditor
+    document.addEventListener('DOMContentLoaded', function() {
+        ClassicEditor
+            .create(document.querySelector('#full_detail'))
+            .catch(error => {
+                console.error('CKEditor error:', error);
+            });
+    });
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const categorySelect = document.getElementById('product_category_id');
@@ -308,35 +275,8 @@ document.addEventListener('DOMContentLoaded', function() {
             reader.readAsDataURL(file);
         });
     });
-
-    // --- 3. JAVASCRIPT UNTUK DETAIL & SUB-DETAIL DINAMIS ---
-    let detailIndex = 0;
-    document.getElementById('add-detail').addEventListener('click', function() {
-        const template = document.getElementById('detail-template').innerHTML;
-        const newDetail = document.createElement('div');
-        newDetail.innerHTML = template.replace(/__INDEX__/g, detailIndex);
-        document.getElementById('details-container').appendChild(newDetail.firstElementChild);
-        detailIndex++;
-    });
 });
 
-function addSubDetail(button, currentDetailIndex) {
-    const container = button.previousElementSibling;
-    const subDetailCount = container.children.length;
-    const template = document.getElementById('subdetail-template').innerHTML;
-    const newSubDetail = document.createElement('div');
-    let newContent = template.replace(/__DETAIL_INDEX__/g, currentDetailIndex);
-    newContent = newContent.replace(/__SUB_INDEX__/g, subDetailCount);
-    newSubDetail.innerHTML = newContent;
-    container.appendChild(newSubDetail.firstElementChild);
-}
 
-function removeDetail(button) {
-    button.closest('.detail-item').remove();
-}
-
-function removeSubDetail(button) {
-    button.closest('.subdetail-item').remove();
-}
 </script>
 @endpush

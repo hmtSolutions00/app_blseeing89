@@ -9,7 +9,8 @@
                     <div class="text-15 text-light-1">Lihat detail kategori produk tanpa dapat mengedit langsung.</div>
                 </div>
                 <div class="col-auto">
-                    <a href="{{ route('admin-panel.categories.edit', $category->id) }}" class="button h-50 px-24 -dark-1 bg-blue-1 text-white d-flex items-center">
+                    <a href="{{ route('admin-panel.categories.edit', $category->id) }}"
+                        class="button h-50 px-24 -dark-1 bg-blue-1 text-white d-flex items-center">
                         <i class="icon-edit mr-10"></i>
                         Ubah Data
                     </a>
@@ -22,30 +23,38 @@
                         <div class="col-xl-10">
                             <div class="text-18 fw-500 mb-10">Data Kategori</div>
                             <div class="row x-gap-20 y-gap-20">
+                                {{-- Label --}}
+                                <div class="col-12">
+                                    <label class="lh-1 text-16 text-light-1">Kategori Ini Termasuk Sebagai Kategori Tour</label>
+                                    <div class="form-input">
+                                        <input type="text"
+                                            value="{{ $category->label === 'tour' ? 'Tour' : 'Pendukung Tour' }}" disabled>
+                                    </div>
+                                </div>
                                 {{-- Nama --}}
                                 <div class="col-12">
                                     <label class="lh-1 text-16 text-light-1">Nama Kategori</label>
                                     <div class="form-input">
                                         <input type="text" value="{{ $category->name }}" disabled>
-                                        
+
                                     </div>
                                 </div>
 
                                 {{-- Deskripsi --}}
                                 <div class="col-12">
-                                     <label class="lh-1 text-16 text-light-1">Keterangan</label>
+                                    <label class="lh-1 text-16 text-light-1">Keterangan</label>
                                     <div class="form-input">
                                         <textarea rows="5" disabled>{{ $category->description }}</textarea>
-                                       
+
                                     </div>
                                 </div>
 
                                 {{-- Slug --}}
                                 <div class="col-12">
-                                     <label class="lh-1 text-16 text-light-1">Slug</label>
+                                    <label class="lh-1 text-16 text-light-1">Slug</label>
                                     <div class="form-input">
                                         <input type="text" value="{{ $category->slug }}" disabled>
-                                       
+
                                     </div>
                                 </div>
                             </div>
@@ -56,13 +65,20 @@
                                 <div class="row x-gap-20 y-gap-20 pt-15">
                                     <div class="col-auto">
                                         <div class="d-flex ratio ratio-1:1 w-200 cursor-pointer">
-                                            <img src="{{ asset($category->thumbnail) }}" alt="Thumbnail" class="img-ratio rounded-4" id="thumbnailModalTrigger" style="cursor: pointer;">
+                                            <img src="{{ asset($category->thumbnail) }}" alt="Thumbnail"
+                                                class="img-ratio rounded-4" id="thumbnailModalTrigger"
+                                                style="cursor: pointer;">
                                         </div>
                                     </div>
-                                    <div id="thumbnailModal" style="display: none; position: fixed; top: 0; left: 0; z-index: 9999; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.8);" onclick="closeThumbnailModal()">
-                                        <div style="position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
-                                            <img src="{{ asset($category->thumbnail) }}" alt="Preview" style="max-width: 90vw; max-height: 90vh; border-radius: 10px;">
-                                            <button type="button" onclick="closeThumbnailModal()" style="position: absolute; top: 20px; right: 20px; background-color: #f44336; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 18px; cursor: pointer;">&times;</button>
+                                    <div id="thumbnailModal"
+                                        style="display: none; position: fixed; top: 0; left: 0; z-index: 9999; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.8);"
+                                        onclick="closeThumbnailModal()">
+                                        <div
+                                            style="position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+                                            <img src="{{ asset($category->thumbnail) }}" alt="Preview"
+                                                style="max-width: 90vw; max-height: 90vh; border-radius: 10px;">
+                                            <button type="button" onclick="closeThumbnailModal()"
+                                                style="position: absolute; top: 20px; right: 20px; background-color: #f44336; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 18px; cursor: pointer;">&times;</button>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +93,7 @@
                                     <label class="lh-1 text-16 text-light-1">Meta Description</label>
                                     <div class="form-input">
                                         <textarea rows="3" disabled>{{ $category->meta_description }}</textarea>
-                                        
+
                                     </div>
                                 </div>
 
@@ -85,31 +101,31 @@
                                     <label class="lh-1 text-16 text-light-1">Meta Keywords</label>
                                     <div class="form-input">
                                         <input type="text" value="{{ $category->meta_keywords }}" disabled>
-                                        
+
                                     </div>
                                 </div>
 
                                 <div class="col-12">
-                                      <label class="lh-1 text-16 text-light-1">OG Title</label>
+                                    <label class="lh-1 text-16 text-light-1">OG Title</label>
                                     <div class="form-input">
                                         <input type="text" value="{{ $category->meta_og_title }}" disabled>
-                                      
+
                                     </div>
                                 </div>
 
                                 <div class="col-12">
-                                       <label class="lh-1 text-16 text-light-1">OG Description</label>
+                                    <label class="lh-1 text-16 text-light-1">OG Description</label>
                                     <div class="form-input">
                                         <textarea rows="3" disabled>{{ $category->meta_og_description }}</textarea>
-                                     
+
                                     </div>
                                 </div>
 
                                 <div class="col-12">
-                                      <label class="lh-1 text-16 text-light-1">OG Type</label>
+                                    <label class="lh-1 text-16 text-light-1">OG Type</label>
                                     <div class="form-input">
                                         <input type="text" value="{{ $category->meta_og_type }}" disabled>
-                                      
+
                                     </div>
                                 </div>
                             </div>

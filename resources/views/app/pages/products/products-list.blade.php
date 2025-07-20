@@ -168,15 +168,6 @@
                                                     <div class="text-14 text-light-1 ml-10">{{ $product->masa_berlaku }}
                                                     </div>
                                                 </div>
-                                                <div class="mt-5">
-                                                    <div class="fw-500">
-                                                        Start from <span class="text-blue-1">
-                                                           Rp. {{ number_format($product->price_start, 0, ',', '.')  }}
-                                                             
-                                                        </span>
-                                                    </div>
-
-                                                </div>
                                             </div>
                                         </a>
                                     </div>

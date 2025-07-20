@@ -22,7 +22,7 @@
             </div>
             @endif
 
-            <form action="{{ route('admin-panel.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin-panel.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" id="form-edit-produk">
                 @csrf
                 @method('PUT')
                 
@@ -65,8 +65,8 @@
                         {{-- Harga Mulai --}}
                         <div class="col-md-6">
                             <div class="form-input">
-                                <input type="number" name="price_start" required value="{{ old('price_start', $product->price_start) }}">
-                                <label class="lh-1 text-16 text-light-1">Harga Mulai (Contoh: 1500000)</label>
+                                <input type="text" name="price_start" required value="{{ old('price_start', $product->price_start) }}">
+                                <label class="lh-1 text-16 text-light-1">Harga Mulai </label>
                             </div>
                         </div>
 
@@ -74,7 +74,7 @@
                         <div class="col-md-6">
                             <div class="form-input">
                                 <input type="text" name="masa_berlaku" value="{{ old('masa_berlaku', $product->masa_berlaku) }}">
-                                <label class="lh-1 text-16 text-light-1">Masa Berlaku (Contoh: Sampai 31 Des 2025)</label>
+                                <label class="lh-1 text-16 text-light-1">Masa Berlaku</label>
                             </div>
                         </div>
 
@@ -87,7 +87,14 @@
                         </div>
                     </div>
                 </div>
-
+                 {{-- === FULL DETAIL === --}}
+                <div class="border-top-light mt-30 mb-30"></div>
+                <div class="col-xl-12">
+                    <div class="form-input">
+                        <label>Detail Produk Lengkap</label>
+                        <textarea name="full_detail" id="full_detail">{{ old('full_detail', $product->full_detail) }}</textarea>
+                    </div>
+                </div>
                 {{-- UPLOAD GAMBAR --}}
                 <div class="border-top-light mt-30 mb-30"></div>
                 <div class="col-xl-12">
@@ -102,40 +109,34 @@
                                 <img id="thumbnail-preview" src="{{ $product->thumbnail ? asset($product->thumbnail) : '#' }}" alt="Thumbnail Preview" class="img-fluid rounded-4 mt-15" style="{{ $product->thumbnail ? '' : 'display: none;' }} max-height: 200px; object-fit: cover;">
                             </div>
                         </div>
-                        {{-- Galeri (Multiple Images) --}}
-                        <div class="col-md-6">
-                            <div class="fw-500">Galeri Gambar (Maks. 5)</div>
-                            <div class="mt-15">
-                                <div id="existing-images-container" class="d-flex flex-wrap gap-3 mb-15">
-                                    @if(is_array($product->images))
-                                        @foreach($product->images as $image)
-                                        <div class="d-inline-block position-relative" id="image-{{ md5($image) }}">
-                                            <img src="{{ asset($image) }}" class="rounded-4" style="height: 100px; width: 100px; object-fit: cover;">
-                                            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle" style="line-height:1; padding: 4px 8px;" onclick="removeExistingImage('{{ $image }}', '{{ md5($image) }}')">&times;</button>
-                                        </div>
-                                        @endforeach
-                                    @endif
-                                </div>
-                                <input type="file" name="images[]" id="images" accept="image/*" class="form-control" multiple>
-                                <div id="images-preview-container" class="d-flex flex-wrap gap-3 mt-15"></div>
-                            </div>
-                        </div>
+                     {{-- Galeri (Multiple Images) --}}
+<div class="col-md-6">
+    <div class="fw-500">Galeri Gambar (Maks. 5)</div>
+    <div class="mt-15">
+        <div id="existing-images-container" class="d-flex flex-wrap gap-3 mb-15">
+            @if(is_array($product->images))
+                @foreach($product->images as $image)
+                <div class="d-inline-block position-relative" id="image-{{ md5($image) }}">
+                    <img src="{{ asset($image) }}" class="rounded-4" style="height: 100px; width: 100px; object-fit: cover;">
+                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle" style="line-height:1; padding: 4px 8px;" onclick="removeExistingImage('{{ $image }}', '{{ md5($image) }}')">&times;</button>
+                </div>
+                @endforeach
+            @endif
+        </div>
+            {{-- Logicnya adalah --}}
+
+        {{-- Input hidden untuk kirim gambar yang masih tersisa --}}
+        <input type="hidden" name="existing_images_json" id="existing_images_json" value="{{ json_encode($product->images ?? []) }}">
+
+        {{-- Upload Gambar Baru --}}
+        <input type="file" name="images[]" id="images" accept="image/*" class="form-control" multiple>
+        <div id="images-preview-container" class="d-flex flex-wrap gap-3 mt-15"></div>
+
+        <div class="text-13 text-light-1 mt-5">Total maksimal 5 gambar (termasuk yang sudah ada).</div>
+    </div>
+</div>
                     </div>
                 </div>
-
-                {{-- DETAIL & SUB-DETAIL DINAMIS --}}
-                <div class="border-top-light mt-30 mb-30"></div>
-                <div class="col-xl-12">
-                    <div class="d-flex justify-content-between items-center mb-10">
-                        <div class="text-18 fw-500">Detail Produk (Itinerary, Fasilitas, dll)</div>
-                        <button type="button" id="add-detail" class="button h-40 px-24 -dark-1 bg-blue-1 text-white">
-                            <i class="icon-plus text-16 mr-10"></i> Tambah Detail
-                        </button>
-                    </div>
-                    {{-- Kontainer ini akan diisi seluruhnya oleh JavaScript --}}
-                    <div id="details-container"></div>
-                </div>
-
 
                 {{-- Meta Data SEO (Lengkap) --}}
                 <div class="border-top-light mt-30 mb-30"></div>
@@ -192,7 +193,9 @@
                         </div>
                     </div>
                 </div>
-
+@foreach(request()->all() as $key => $val)
+    <p><strong>{{ $key }}:</strong> {{ is_array($val) ? implode(', ', $val) : $val }}</p>
+@endforeach
                 <div class="d-inline-block pt-30">
                     <button type="submit" class="button h-50 px-24 -dark-1 bg-blue-1 text-white">
                         Update Produk <div class="icon-arrow-top-right ml-15"></div>
@@ -203,123 +206,47 @@
     </div>
 </div>
 
-{{-- TEMPLATE UNTUK DETAIL & SUB-DETAIL (DISEMBUNYIKAN) --}}
-<template id="detail-template">
-    <div class="detail-item py-20 px-20 rounded-4 border-light mt-20">
-        <div class="row y-gap-20 items-center">
-            <div class="col">
-                <div class="form-input">
-                    <input type="text" name="details[__INDEX__][title]" required>
-                    <label class="lh-1 text-16 text-light-1">Judul Detail (Contoh: Itinerary Hari Ke-1)</label>
-                </div>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="button size-40 bg-red-1 text-white" onclick="removeDetail(this)">
-                    <i class="icon-trash-2 text-16"></i>
-                </button>
-            </div>
-            <div class="col-12">
-                <div class="form-input">
-                    <textarea name="details[__INDEX__][content]" rows="3"></textarea>
-                    <label class="lh-1 text-16 text-light-1">Deskripsi Detail (Opsional)</label>
-                </div>
-            </div>
-        </div>
-        <div class="subdetails-container mt-20 ml-30">
-            {{-- Kontainer untuk sub-detail dinamis --}}
-        </div>
-        <button type="button" class="button h-30 px-20 -dark-1 bg-light-2 text-dark-1 mt-15" onclick="addSubDetail(this, '__INDEX__')">
-            <i class="icon-plus text-12 mr-10"></i> Tambah Sub-Detail
-        </button>
-    </div>
-</template>
-
-<template id="subdetail-template">
-    <div class="subdetail-item d-flex items-center mt-15">
-        <div class="form-input flex-grow-1">
-            <input type="text" name="details[__DETAIL_INDEX__][subdetails][__SUB_INDEX__][content]" required>
-            <label class="lh-1 text-16 text-light-1">Isi Sub-Detail</label>
-        </div>
-        <div class="ml-10">
-            <button type="button" class="button size-30 bg-red-1 text-white" onclick="removeSubDetail(this)">
-                <i class="icon-trash-2 text-12"></i>
-            </button>
-        </div>
-    </div>
-</template>
 
 @endsection
 
 @push('custom_js')
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
-// =======================================================================
-// SCRIPT LENGKAP & DIPERBAIKI UNTUK HALAMAN EDIT
-// =======================================================================
-
-// --- BAGIAN 1: FUNGSI-FUNGSI HELPER (TIDAK DIUBAH) ---
-function removeDetail(button) {
-    button.closest('.detail-item').remove();
-}
-
-function removeSubDetail(button) {
-    button.closest('.subdetail-item').remove();
-}
-
-function removeExistingImage(imagePath, imageId) {
-    const form = document.querySelector('form');
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'images_to_remove[]';
-    input.value = imagePath;
-    form.appendChild(input);
-    document.getElementById(`image-${imageId}`).remove();
-    alert('Gambar akan dihapus saat Anda menekan tombol Update.');
-}
-
-function addSubDetail(button, currentDetailIndex) {
-    const container = button.previousElementSibling;
-    let subDetailCount = container.querySelectorAll('.subdetail-item').length;
-    const template = document.getElementById('subdetail-template').innerHTML;
-    const newSubDetail = document.createElement('div');
-    let newContent = template.replace(/__DETAIL_INDEX__/g, currentDetailIndex);
-    newContent = newContent.replace(/__SUB_INDEX__/g, subDetailCount);
-    newSubDetail.innerHTML = newContent;
-    container.appendChild(newSubDetail.firstElementChild);
-}
-
-function addDetail(detailIndex, detailData = null) {
-    const detailsContainer = document.getElementById('details-container');
-    const detailTemplate = document.getElementById('detail-template').innerHTML;
-    const newDetail = document.createElement('div');
-    newDetail.innerHTML = detailTemplate.replace(/__INDEX__/g, detailIndex);
-    
-    if (detailData) {
-        newDetail.querySelector(`[name="details[${detailIndex}][title]"]`).value = detailData.title;
-        const contentTextarea = newDetail.querySelector(`[name="details[${detailIndex}][content]"]`);
-        if (contentTextarea) contentTextarea.value = detailData.content || '';
-        
-        if (detailData.sub_details && detailData.sub_details.length > 0) {
-            const subContainer = newDetail.querySelector('.subdetails-container');
-            detailData.sub_details.forEach((subDetail, subIndex) => {
-                const subTemplate = document.getElementById('subdetail-template').innerHTML;
-                const newSubEl = document.createElement('div');
-                let newContent = subTemplate.replace(/__DETAIL_INDEX__/g, detailIndex);
-                newContent = newContent.replace(/__SUB_INDEX__/g, subIndex);
-                newSubEl.innerHTML = newContent;
-                newSubEl.querySelector('input').value = subDetail.content;
-                subContainer.appendChild(newSubEl.firstElementChild);
+    // Inisialisasi CKEditor
+    document.addEventListener('DOMContentLoaded', function() {
+        ClassicEditor
+            .create(document.querySelector('#full_detail'))
+            .catch(error => {
+                console.error('CKEditor error:', error);
             });
+    });
+</script>
+
+<script>
+function removeExistingImage(imagePath, imageId) {
+    const imageDiv = document.getElementById('image-' + imageId);
+    if (imageDiv) {
+        imageDiv.remove();
+        console.log('Removed image path:', imagePath);
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'images_to_remove[]';
+        input.value = imagePath;
+
+        const form = document.getElementById('form-edit-produk');
+        if (form) {
+            form.appendChild(input);
+            console.log('Input hidden akan ditambahkan ke form...');
+        } else {
+            console.error('Form tidak ditemukan!');
         }
     }
-    
-    detailsContainer.appendChild(newDetail.firstElementChild);
 }
 
-
-// --- BAGIAN 2: EKSEKUSI SAAT HALAMAN DIMUAT ---
+// Logic setelah DOM siap
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // --- Logika Kategori & Sub-kategori Dinamis (DIPERBAIKI) ---
+    // Handle subkategori dinamis
     const categorySelect = document.getElementById('product_category_id');
     const subcategorySelect = document.getElementById('product_subcategory_id');
 
@@ -334,10 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
         subcategorySelect.disabled = true;
 
         fetch(`{{ url('admin-panel/get-subcategories') }}/${categoryId}`)
-            .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 let options = '<option value="" disabled>-- Pilih Sub Kategori --</option>';
                 data.forEach(function(subcategory) {
@@ -345,9 +269,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     options += `<option value="${subcategory.id}" ${isSelected}>${subcategory.name}</option>`;
                 });
                 subcategorySelect.innerHTML = options;
-                if (!subcategorySelect.value) {
-                    subcategorySelect.querySelector('option[disabled]').selected = true;
-                }
                 subcategorySelect.disabled = false;
             })
             .catch(error => {
@@ -361,32 +282,14 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchAndPopulateSubcategories(this.value);
     });
 
-    // Panggil saat halaman dimuat untuk mengisi sub-kategori berdasarkan kategori yang ada
+    // Inisialisasi subkategori jika halaman load
     const initialCategoryId = categorySelect.value;
     const initialSubcategoryId = '{{ old('product_subcategory_id', $product->product_subcategory_id) }}';
     if (initialCategoryId) {
         fetchAndPopulateSubcategories(initialCategoryId, initialSubcategoryId);
     }
 
-
-    // --- Logika untuk Detail & Sub-Detail yang sudah ada ---
-    const existingDetails = @json(old('details', $product->details->load('subDetails')));
-    let detailIndex = 0;
-
-    if (existingDetails && Array.isArray(existingDetails) && existingDetails.length > 0) {
-        existingDetails.forEach(detail => {
-            addDetail(detailIndex, detail);
-            detailIndex++;
-        });
-    }
-
-    document.getElementById('add-detail').addEventListener('click', () => {
-        addDetail(detailIndex);
-        detailIndex++;
-    });
-
-
-    // --- Logika untuk Preview Gambar ---
+    // Preview Thumbnail
     document.getElementById('thumbnail').addEventListener('change', function(e) {
         const preview = document.getElementById('thumbnail-preview');
         if (e.target.files && e.target.files[0]) {
@@ -399,23 +302,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.getElementById('images').addEventListener('change', function(e) {
-        const container = document.getElementById('images-preview-container');
-        container.innerHTML = ''; 
-        if (e.target.files.length > 5) {
-            alert('Anda hanya bisa mengupload maksimal 5 gambar.');
+    // Handle preview gambar multi dan batasi max 5 total gambar
+    const imageInput = document.getElementById('images');
+    const previewContainer = document.getElementById('images-preview-container');
+    const existingContainer = document.getElementById('existing-images-container');
+
+    imageInput.addEventListener('change', function(e) {
+        previewContainer.innerHTML = ''; // reset preview
+
+        const existingCount = existingContainer.querySelectorAll('img').length;
+        const newCount = e.target.files.length;
+        const totalCount = existingCount + newCount;
+
+        if (totalCount > 5) {
+            alert(`Total gambar tidak boleh lebih dari 5. Saat ini sudah ada ${existingCount} gambar.`);
             e.target.value = "";
             return;
         }
+
         Array.from(e.target.files).forEach(file => {
             const reader = new FileReader();
             reader.onload = function(ev) {
                 const img = document.createElement('img');
                 img.src = ev.target.result;
-                img.style.maxHeight = '100px';
-                img.style.maxWidth = '100px';
-                img.classList.add('rounded-4', 'object-cover');
-                container.appendChild(img);
+                img.style.height = '100px';
+                img.style.width = '100px';
+                img.classList.add('rounded-4', 'object-cover', 'me-2');
+                previewContainer.appendChild(img);
             }
             reader.readAsDataURL(file);
         });

@@ -38,6 +38,7 @@ Route::get('/privacy-policy', [IndexController::class, 'privacyPolicy'])->name('
 Route::get('/terms-and-conditions', [IndexController::class, 'termsCondition'])->name('termsCondition');
 
 
+Route::get('/search', [FrontendProdukLayananController::class, 'search'])->name('frontend.search');
 
 
 

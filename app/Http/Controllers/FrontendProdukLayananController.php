@@ -46,25 +46,9 @@ public function showBySubcategory($category_slug, $subcategory_slug)
 
     return view('app.pages.products.products-list', compact('subcategory', 'products', 'category'));
 }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
 public function show($category_slug, $subcategory_slug, $product_slug)
 {
     $subcategory = ProductSubcategory::where('slug', $subcategory_slug)->firstOrFail();
@@ -101,9 +85,6 @@ public function listGaleri(){
     return view('app.pages.galeries.index', compact('galeriList'));
 }
 
-
-
-
 public function singleGaleri($slug)
 {
     $galeri = Galerie::with(['imageGaleri']) // ambil relasi gambar
@@ -113,27 +94,26 @@ public function singleGaleri($slug)
     return view('app.pages.galeries.show', compact('galeri'));
 }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    public function search(Request $request)
+{
+    $request->validate([
+        'keyword' => 'nullable|string|max:100',
+    ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    $keyword = $request->input('keyword');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    $products = Product::query()
+        ->where('name', 'like', "%{$keyword}%")
+        ->with('subcategory.category') // untuk breadcrumb
+        ->paginate(12);
+
+    // Proses images agar aman saat di-loop
+    $products->getCollection()->transform(function ($product) {
+        $product->images_array = json_decode($product->images, true) ?? [];
+        return $product;
+    });
+
+    return view('app.pages.search.index', compact('products', 'keyword'));
+}
+
 }

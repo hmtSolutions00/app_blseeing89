@@ -68,15 +68,8 @@
                             <div class="row x-gap-30 y-gap-10">
                                 <div class="col-auto">
                                     <div class="d-flex items-center">
-                                        ©2025 Blessing89tourtravel LLC All rights reserved.
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex x-gap-15">
-                                        <a href="{{ route('aboutus.index') }}">Kebijakan Privasi</a>
-                                        <a href="{{ route('termsCondition') }}">Syarat dan Ketentuan</a>
-                                        
+                                        ©2025 PT. Elang Berkat Travelindo LLC All rights reserved. &nbsp;
+                                       
                                     </div>
                                 </div>
                             </div>

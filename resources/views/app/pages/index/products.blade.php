@@ -15,7 +15,7 @@
           <select id="subcategory-select"
             class="form-select text-14 fw-500 px-20 py-10 rounded-4 bg-light-2"
             style="min-width: 200px;">
-            <option value="all" selected>Cari Produk Terbaru</option>
+            <option value="all" selected>Cari Produk (Sub Kategori)</option>
             @foreach($subcategories as $subcategory)
               <option value="{{ $subcategory->slug }}">{{ $subcategory->name }}</option>
             @endforeach

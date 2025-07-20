@@ -108,10 +108,7 @@
                         Blessing89 Tour & Travel.
                         Lihat bagaimana kami membantu menciptakan momen tak terlupakan di berbagai destinasi impian.</p>
                 </div>
-
                 <div class="col-xl-4 offset-xl-2 col-lg-5 offset-lg-1 col-md-10">
-
-
                     <div class="testimonials-slider-2 js-testimonials-slider-2">
                         <div class="swiper-wrapper">
                             @foreach ($testimonials as $testimonial)

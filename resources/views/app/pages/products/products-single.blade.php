@@ -211,7 +211,7 @@
                 {{ \Illuminate\Support\Str::words(strip_tags($related->description), 12, '...') }}
               </div>
               <div class="mt-5">
-                Start from <span class="text-blue-1">IDR {{ $related->price_start }}</span>
+                 <span class="text-blue-1"> {{ $related->price_start }}</span>
               </div>
             </div>
           </div>

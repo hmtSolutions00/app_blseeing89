@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   </h4>
                   <div class="mt-5">
                     <div class="fw-500">
-                      Start from <span class="text-blue-1">${product.prioce_start}</span>
+                        <span class="text-blue-1">${product.prioce_start}</span>
                     </div>
                   </div>
                 </div>

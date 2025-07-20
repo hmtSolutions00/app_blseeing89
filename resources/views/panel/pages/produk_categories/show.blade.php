@@ -36,7 +36,6 @@
                                     <label class="lh-1 text-16 text-light-1">Nama Kategori</label>
                                     <div class="form-input">
                                         <input type="text" value="{{ $category->name }}" disabled>
-
                                     </div>
                                 </div>
 
@@ -93,7 +92,6 @@
                                     <label class="lh-1 text-16 text-light-1">Meta Description</label>
                                     <div class="form-input">
                                         <textarea rows="3" disabled>{{ $category->meta_description }}</textarea>
-
                                     </div>
                                 </div>
 
@@ -101,7 +99,6 @@
                                     <label class="lh-1 text-16 text-light-1">Meta Keywords</label>
                                     <div class="form-input">
                                         <input type="text" value="{{ $category->meta_keywords }}" disabled>
-
                                     </div>
                                 </div>
 

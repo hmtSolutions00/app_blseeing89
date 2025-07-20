@@ -65,7 +65,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
         // 1. Validasi Request
         $request->validate([
             'product_category_id' => 'required|exists:product_categories,id',
@@ -125,7 +124,6 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan produk: ' . $e->getMessage())->withInput();
         }
     }
-
 
     /**
      * Endpoint untuk AJAX request mengambil subkategori.

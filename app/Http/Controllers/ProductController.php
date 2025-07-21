@@ -71,18 +71,13 @@ class ProductController extends Controller
             'product_subcategory_id' => 'required|exists:product_subcategories,id',
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:products,slug',
-            'price_start' => 'required|numeric',
+            'price_start' => 'nullable|string',
             'masa_berlaku' => 'nullable|string|max:255',
             'description' => 'required|string',
+            'full_detail' => 'nullable|string',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'images' => 'nullable|array|max:5',
             'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'details' => 'required|array',
-            'details.*.title' => 'required|string|max:255',
-            'details.*.content' => 'nullable|string',
-            'details.*.subdetails' => 'nullable|array',
-            'details.*.subdetails.*.content' => 'required_with:details.*.subdetails|string',
-
             // Meta data validation
             'meta_description' => 'nullable|string|max:255',
             'meta_keywords' => 'nullable|string|max:255',
@@ -93,10 +88,12 @@ class ProductController extends Controller
 
         DB::beginTransaction();
         try {
-            $data = $request->except(['_token', 'details', 'thumbnail', 'images', 'product_category_id']);
+            $data = $request->except(['_token', 'thumbnail', 'images', 'product_category_id']);
 
             // 2. Handle Slug
-            $data['slug'] = $request->slug ? Str::slug($request->slug) : Str::slug($request->name);
+            $data['slug'] = $request->slug
+                ? Str::slug($request->slug)
+                : Str::slug($request->name) . '-' . Str::uuid();
 
             // 3. Handle Upload Thumbnail
             if ($request->hasFile('thumbnail')) {
@@ -117,26 +114,8 @@ class ProductController extends Controller
             }
             $data['images'] = json_encode($imagePaths);
 
-            // 5. Simpan Produk Utama (termasuk meta data)
-            $product = Product::create($data);
-
-            // 6. Simpan Detail dan Sub-Detail
-            if ($request->has('details')) {
-                foreach ($request->details as $detailData) {
-                    $productDetail = $product->details()->create([
-                        'title' => $detailData['title'],
-                        'content' => $detailData['content'] ?? null,
-                    ]);
-
-                    if (isset($detailData['subdetails'])) {
-                        foreach ($detailData['subdetails'] as $subDetailData) {
-                            $productDetail->subDetails()->create([
-                                'content' => $subDetailData['content'],
-                            ]);
-                        }
-                    }
-                }
-            }
+            // 5. Simpan Produk
+            Product::create($data);
 
             DB::commit();
             return redirect()->route('admin-panel.products.index')->with('success', 'Produk berhasil ditambahkan.');
@@ -174,43 +153,43 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $product = Product::with(['details.subDetails', 'subcategory'])->findOrFail($id);
+        // Ambil produk dengan subkategori (dan kategori via subkategori)
+        $product = Product::with('subcategory')->findOrFail($id);
+
+        // Ambil semua kategori untuk opsi select
         $categories = \App\Models\ProductCategory::all();
 
-        // Ambil subkategori berdasarkan relasi kategori dari subkategori produk
+        // Ambil subkategori berdasarkan kategori dari relasi subkategori produk
         $subcategories = \App\Models\ProductSubcategory::where(
             'product_category_id',
-            $product->subcategory->product_category_id
+            optional($product->subcategory)->product_category_id // lebih aman
         )->get();
 
-        // ✅ Perbaikan PENTING: pastikan images adalah array
-        $product->images = is_array($product->images)
-            ? $product->images
-            : json_decode($product->images ?? '[]', true);
+        // Pastikan images selalu dalam bentuk array (safety untuk form edit)
+        if (!is_array($product->images)) {
+            $product->images = json_decode($product->images ?? '[]', true);
+        }
 
         return view('panel.pages.products.edit', compact('product', 'categories', 'subcategories'));
     }
 
+
     /**
      * Update the specified resource in storage.
      */
-  public function update(Request $request, Product $product)
+public function update(Request $request, Product $product)
 {
     $request->validate([
         'product_category_id' => 'required|exists:product_categories,id',
         'product_subcategory_id' => 'required|exists:product_subcategories,id',
         'name' => 'required|string|max:255',
-        'price_start' => 'required|numeric',
+        'price_start' => 'nullable|string',
         'masa_berlaku' => 'nullable|string|max:255',
         'description' => 'required|string',
         'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        'images' => 'nullable|array|max:5',
+        'images' => 'nullable|array',
         'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-        'details' => 'required|array',
-        'details.*.title' => 'required|string|max:255',
-        'details.*.content' => 'nullable|string',
-        'details.*.subdetails' => 'nullable|array',
-        'details.*.subdetails.*.content' => 'required_with:details.*.subdetails|string',
+        'full_detail' => 'required|string',
         'meta_description' => 'nullable|string',
         'meta_keywords' => 'nullable|string',
         'meta_og_title' => 'nullable|string',
@@ -234,11 +213,10 @@ class ProductController extends Controller
 
         // === Prepare Data
         $data = $request->except([
-            '_token', '_method', 'details', 'thumbnail', 'images', 'images_to_remove'
+            '_token', '_method', 'thumbnail', 'images', 'images_to_remove'
         ]);
 
         $data['slug'] = $slug;
-        $data['product_subcategory_id'] = $request->product_subcategory_id;
 
         // === Handle Thumbnail
         if ($request->hasFile('thumbnail')) {
@@ -251,77 +229,100 @@ class ProductController extends Controller
             $data['thumbnail'] = 'uploads/produk/thumbnail/' . $filename;
         }
 
-        // === Handle Images
+        // === Ambil gambar saat ini
         $currentImages = is_array($product->images)
             ? $product->images
             : json_decode($product->images ?? '[]', true);
 
+        if (!is_array($currentImages)) {
+            $currentImages = [];
+        }
+
+        // === Hapus gambar jika diminta
+      
         if ($request->has('images_to_remove')) {
             foreach ($request->images_to_remove as $imageToRemove) {
                 if (File::exists(public_path($imageToRemove))) {
                     File::delete(public_path($imageToRemove));
                 }
-                $currentImages = array_diff($currentImages, [$imageToRemove]);
+                $currentImages = array_values(array_diff($currentImages, [$imageToRemove]));
             }
         }
+
+        // === Tambah gambar baru jika masih cukup slot
+        $maxImages = 5;
+        $newImages = [];
 
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $imageFile) {
+            $remainingSlots = $maxImages - count($currentImages);
+
+            $files = $request->file('images');
+            $files = array_slice($files, 0, $remainingSlots); // batasi jumlah yang diupload
+
+            foreach ($files as $imageFile) {
                 $filename = Str::uuid() . '.' . $imageFile->getClientOriginalExtension();
                 $imageFile->move(public_path('uploads/produk/images'), $filename);
-                $currentImages[] = 'uploads/produk/images/' . $filename;
+                $newImages[] = 'uploads/produk/images/' . $filename;
             }
         }
 
-        // ✅ Cek jika ada perubahan pada images (tambah/hapus)
-        if ($request->hasFile('images') || $request->has('images_to_remove')) {
-            $data['images'] = json_encode(array_values($currentImages));
-        }
+        $currentImages = array_merge($currentImages, $newImages);
 
-        // === Update Produk
+        // === Simpan array images
+        $data['images'] = json_encode(array_values($currentImages));
+
+        // === Simpan ke database
         $product->update($data);
-        $product->refresh();
-
-        // === Hapus detail lama
-        foreach ($product->details as $detail) {
-            $detail->subDetails()->delete();
-        }
-        $product->details()->delete();
-
-        // === Simpan detail dan subdetail baru
-        foreach ($request->details as $detailData) {
-            $productDetail = $product->details()->create([
-                'title' => $detailData['title'],
-                'content' => $detailData['content'] ?? null,
-            ]);
-
-            if (!empty($detailData['subdetails'])) {
-                foreach ($detailData['subdetails'] as $subDetailData) {
-                    $productDetail->subDetails()->create([
-                        'content' => $subDetailData['content'],
-                    ]);
-                }
-            }
-        }
 
         DB::commit();
         return redirect()->route('admin-panel.products.index')->with('success', 'Produk berhasil diperbarui.');
     } catch (\Exception $e) {
         DB::rollBack();
-        dd($e->getMessage()); // untuk debugging
+        return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
     }
 }
+
+
+
+
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) {}
+    public function destroy(string $id)
+{
+    $product = Product::findOrFail($id);
+
+    // Ambil dan decode array gambar
+    $images = is_array($product->images) ? $product->images : json_decode($product->images, true);
+
+    if (is_array($images)) {
+        foreach ($images as $imagePath) {
+            $fullPath = public_path($imagePath);
+
+            // Hapus file jika ada
+            if (File::exists($fullPath)) {
+                File::delete($fullPath);
+            }
+        }
+    }
+
+    // Jika ada thumbnail, hapus juga
+    if ($product->thumbnail && File::exists(public_path($product->thumbnail))) {
+        File::delete(public_path($product->thumbnail));
+    }
+
+    // Hapus data dari database
+    $product->delete();
+
+    return redirect()->back()->with('success', 'Produk berhasil dihapus.');
+}
 
     public function getProducts($subcategoryId)
     {
         $products = Product::where('product_subcategory_id', $subcategoryId)
-                            ->get();
+            ->get();
 
         return response()->json($products);
     }

@@ -23,6 +23,37 @@
                             <div class="col-xl-10">
                                 <div class="text-18 fw-500 mb-10">Data Kategori</div>
                                 <div class="row x-gap-20 y-gap-20">
+                                    {{-- ini label prodduk --}}
+        {{-- Label Produk --}}
+<div class="col-12">
+  <label class="lh-1 text-16 text-light-1 d-block mb-10">Label Kategori Produk</label>
+
+  <div class="select js-select js-liveSearch" data-select-value="">
+    <button class="select__button js-button" type="button">
+      <span class="js-button-title">
+        {{ old('label') === 'pendukung_tour' ? 'Produk Pendukung Tour' : (old('label') === 'tour' ? 'Produk Tour' : 'Pilih Label Kategori Produk Anda') }}
+      </span>
+      <i class="select__icon" data-feather="chevron-down"></i>
+    </button>
+
+    <div class="select__dropdown js-dropdown">
+      <input type="text" placeholder="Search" class="select__search js-search">
+      <div class="select__options js-options">
+        <div class="select__options__button" data-value="tour">Produk Tour</div>
+        <div class="select__options__button" data-value="pendukung_tour">Produk Pendukung Tour</div>
+      </div>
+    </div>
+  </div>
+
+  {{-- Hidden input untuk dikirim ke server --}}
+  <input type="hidden" name="label" id="label" value="{{ old('label') }}">
+
+  @error('label')
+    <div class="text-red-1 mt-5">{{ $message }}</div>
+  @enderror
+</div>
+
+                                    {{-- End label produk --}}
 
                                     
                                     {{-- Nama Kategori --}}
@@ -229,5 +260,14 @@
             this.dataset.manual = 'true';
         });
     </script>
+    <script>
+  document.querySelectorAll('.select__options__button').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const selectedValue = this.getAttribute('data-value').trim();
+      document.getElementById('label').value = selectedValue;
+    });
+  });
+</script>
+
     @endpush
 @endsection

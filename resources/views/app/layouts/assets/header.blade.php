@@ -1,4 +1,3 @@
-
 <header data-add-bg="bg-dark-1" class="header  js-header" data-x="header" data-x-toggle="is-menu-opened">
     <div data-anim="fade" class="header__container container">
         <div class="row justify-between items-center">
@@ -11,8 +10,9 @@
                 <div class="col-6 col-lg-6 mr-30">
                     <h2 class="text-yellow-1">Blessing89 Tour & Travel</h2>
                 </div>
-                <div class="col-1 d-flex justify-content-end align-items-center">
+                <div class="col-1 col-lg-4 d-flex justify-content-end align-items-center">
                     <div class="d-flex items-center text-14 text-white gap-2 lang-selector">
+                        <span class="text-white" id="lang-word">Bahasa</span>
                         {{-- Tombol Bendera Indonesia --}}
                         <button class="lang-option-btn" data-lang="id">
                             <img src="{{ asset('uploads/lang/indonesia.png') }}" alt="Indonesia Flag" width="24" height="16">

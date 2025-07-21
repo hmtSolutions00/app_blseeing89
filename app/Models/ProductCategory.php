@@ -15,7 +15,9 @@ class ProductCategory extends Model
         'meta_keywords', 
         'meta_og_title', 
         'meta_og_description', 
-        'meta_og_type'
+        'meta_og_type',
+        'label',
+        'sortir'
                ];
     public function subcategories()
     {

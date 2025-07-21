@@ -34,9 +34,12 @@ Route::get('/produk-terbaru-by-subcategory/{slug}', [IndexController::class, 'ge
 
 // Route Glaeri Show
 Route::get('/galeries', [FrontendProdukLayananController::class, 'listGaleri'])->name('galeri.list');
-Route::get('/galeri/', [FrontendProdukLayananController::class, 'singleGaleri'])->name('galeri.single');
+Route::get('/galeri/{slug}', [FrontendProdukLayananController::class, 'singleGaleri'])->name('galeri.single');
+Route::get('/privacy-policy', [IndexController::class, 'privacyPolicy'])->name('privacy');
+Route::get('/terms-and-conditions', [IndexController::class, 'termsCondition'])->name('termsCondition');
 
 
+Route::get('/search', [FrontendProdukLayananController::class, 'search'])->name('frontend.search');
 
 
 

@@ -6,13 +6,11 @@
             <div class="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
                 <div class="col-auto">
                     <h1 class="text-30 lh-14 fw-600">Edit Kategori Produk (Jasa & Layanan)</h1>
-                    <div class="text-15 text-light-1">Halaman ini digunakan untuk mengedit data kategori produk (jasa &
-                        layanan).</div>
+                    <div class="text-15 text-light-1">Halaman ini digunakan untuk mengedit data kategori produk (jasa & layanan).</div>
                 </div>
             </div>
 
             <div class="py-30 px-30 rounded-4 bg-white shadow-3">
-                {{-- Form Edit --}}
                 <form action="{{ route('admin-panel.categories.update', $category->id) }}" method="POST"
                     enctype="multipart/form-data" class="tabs -underline-2 js-tabs">
                     @csrf
@@ -23,6 +21,35 @@
                             <div class="col-xl-10">
                                 <div class="text-18 fw-500 mb-10">Data Kategori</div>
                                 <div class="row x-gap-20 y-gap-20">
+
+                                    {{-- Label Produk --}}
+                                    <div class="col-12">
+                                        <label class="lh-1 text-16 text-light-1 d-block mb-10">Label Kategori Produk</label>
+
+                                        <div class="select js-select js-liveSearch" data-select-value="">
+                                            <button class="select__button js-button" type="button">
+                                                <span class="js-button-title">
+                                                    {{ old('label', $category->label) === 'pendukung_tour' ? 'Produk Pendukung Tour' : (old('label', $category->label) === 'tour' ? 'Produk Tour' : 'Pilih Label Kategori Produk Anda') }}
+                                                </span>
+                                                <i class="select__icon" data-feather="chevron-down"></i>
+                                            </button>
+
+                                            <div class="select__dropdown js-dropdown">
+                                                <input type="text" placeholder="Search" class="select__search js-search">
+                                                <div class="select__options js-options">
+                                                    <div class="select__options__button" data-value="tour">Produk Tour</div>
+                                                    <div class="select__options__button" data-value="pendukung_tour">Produk Pendukung Tour</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" name="label" id="label" value="{{ old('label', $category->label) }}">
+
+                                        @error('label')
+                                            <div class="text-red-1 mt-5">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
                                     {{-- Nama --}}
                                     <div class="col-12">
                                         <div class="form-input ">
@@ -51,11 +78,9 @@
                                         <div class="form-input ">
                                             <input type="text" name="slug" id="slug"
                                                 value="{{ old('slug', $category->slug) }}" data-manual="true">
-                                            <label for="slug" class="lh-1 text-16 text-light-1">Slug (URL Friendly
-                                                Name)</label>
+                                            <label for="slug" class="lh-1 text-16 text-light-1">Slug (URL Friendly Name)</label>
                                         </div>
-                                        <div class="text-13 text-light-1 mt-5">Kosongkan jika ingin dibuat otomatis dari
-                                            Nama Kategori.</div>
+                                        <div class="text-13 text-light-1 mt-5">Kosongkan jika ingin dibuat otomatis dari Nama Kategori.</div>
                                         @error('slug')
                                             <div class="text-red-1 mt-5">{{ $message }}</div>
                                         @enderror
@@ -77,19 +102,17 @@
                                                     </label>
                                                     <input type="file" name="thumbnail" id="thumbnail"
                                                         accept="image/png, image/jpeg" style="display: none;">
-                                                    {{-- Preview Thumbnail --}}
                                                     <img id="thumbnail-preview" src="{{ $category->thumbnail_url ?? '#' }}"
                                                         alt="Thumbnail Preview" class="img-ratio rounded-4"
                                                         @if (!$category->thumbnail_url) style="display: none;" @endif>
                                                 </div>
-                                                <div class="text-center mt-10 text-14 text-light-1">Masukkan Gambar dengan
-                                                    Ekstensi PNG dan JPG</div>
+                                                <div class="text-center mt-10 text-14 text-light-1">Masukkan Gambar dengan Ekstensi PNG dan JPG</div>
                                             </div>
                                             @error('thumbnail')
                                                 <div class="text-red-1 mt-5">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        {{-- Imeg Preview --}}
+
                                         <div class="col-auto">
                                             <div class="d-flex ratio ratio-1:1 w-200 cursor-pointer">
                                                 <img src="{{ asset($category->thumbnail) }}" alt="Thumbnail"
@@ -97,11 +120,11 @@
                                                     style="cursor: pointer;">
                                             </div>
                                         </div>
+
                                         <div id="thumbnailModal"
                                             style="display: none; position: fixed; top: 0; left: 0; z-index: 9999; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.8);"
                                             onclick="closeThumbnailModal()">
-                                            <div
-                                                style="position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+                                            <div style="position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
                                                 <img src="{{ asset($category->thumbnail) }}" alt="Preview"
                                                     style="max-width: 90vw; max-height: 90vh; border-radius: 10px;">
                                                 <button type="button" onclick="closeThumbnailModal()"
@@ -110,8 +133,6 @@
                                                 </button>
                                             </div>
                                         </div>
-
-                                        {{-- End Preview --}}
                                     </div>
                                 </div>
 
@@ -123,8 +144,7 @@
                                     <div class="col-12">
                                         <div class="form-input ">
                                             <textarea name="meta_description" id="meta_description" rows="3">{{ old('meta_description', $category->meta_description) }}</textarea>
-                                            <label for="meta_description" class="lh-1 text-16 text-light-1">Meta
-                                                Description</label>
+                                            <label for="meta_description" class="lh-1 text-16 text-light-1">Meta Description</label>
                                         </div>
                                     </div>
 
@@ -132,8 +152,7 @@
                                         <div class="form-input ">
                                             <input type="text" name="meta_keywords" id="meta_keywords"
                                                 value="{{ old('meta_keywords', $category->meta_keywords) }}">
-                                            <label for="meta_keywords" class="lh-1 text-16 text-light-1">Meta
-                                                Keywords</label>
+                                            <label for="meta_keywords" class="lh-1 text-16 text-light-1">Meta Keywords</label>
                                         </div>
                                     </div>
 
@@ -148,8 +167,7 @@
                                     <div class="col-12">
                                         <div class="form-input ">
                                             <textarea name="meta_og_description" id="meta_og_description" rows="3">{{ old('meta_og_description', $category->meta_og_description) }}</textarea>
-                                            <label for="meta_og_description" class="lh-1 text-16 text-light-1">OG
-                                                Description</label>
+                                            <label for="meta_og_description" class="lh-1 text-16 text-light-1">OG Description</label>
                                         </div>
                                     </div>
 
@@ -173,12 +191,10 @@
                 </form>
             </div>
 
-            {{-- Footer tetap sama --}}
             @include('panel.component.footer')
         </div>
     </div>
 
-    {{-- Custom JS --}}
     @push('custom_js')
         <script>
             document.getElementById('thumbnail').addEventListener('change', function(e) {
@@ -198,8 +214,7 @@
                     preview.style.display = '{{ $category->thumbnail_url ? 'block' : 'none' }}';
                 }
             });
-        </script>
-        <script>
+
             document.getElementById('thumbnailModalTrigger').addEventListener('click', function(e) {
                 e.preventDefault();
                 document.getElementById('thumbnailModal').style.display = 'block';
@@ -208,6 +223,16 @@
             function closeThumbnailModal() {
                 document.getElementById('thumbnailModal').style.display = 'none';
             }
+
+            // Label button dropdown
+            document.querySelectorAll('.select__options__button').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const selectedValue = this.getAttribute('data-value').trim();
+                    document.getElementById('label').value = selectedValue;
+                    const buttonTitle = this.closest('.select').querySelector('.js-button-title');
+                    buttonTitle.textContent = this.textContent;
+                });
+            });
         </script>
     @endpush
 @endsection

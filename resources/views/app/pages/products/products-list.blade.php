@@ -1,6 +1,24 @@
 @extends('app.layouts.index')
 
-@section('custom_css')
+
+@push('dynamic_tag')
+    <title>{{ $subcategory->name }} | Blessing89 Tour Travel</title>
+    <meta name="description" content="{{ $subcategory->meta_description }}">
+    <meta name="keywords" content="{{ $subcategory->meta_keywords }}">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $subcategory->meta_og_title }} | Blessing89 Tour Travel">
+    <meta property="og:description" content="{{ $subcategory->meta_og_description }}">
+   <meta property="og:image" content="{{ asset( $subcategory->thumbnail) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="{{$subcategory->meta_og_type}}">
+    <meta property="og:site_name" content="Blessing89 Tour Travel">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Blessing89Travel">
+    <meta name="twitter:title" content="{{ $subcategory->meta_og_title }}| Blessing89 Tour Travel">
+    <meta name="twitter:description" content="{{ $subcategory->meta_og_description }}">
+    <meta name="twitter:image" content="{{ asset( $subcategory->thumbnail) }}">
+@endpush
+@push('custom_css')
     <style>
         @media (max-width: 768px) {
             .product-col {
@@ -37,7 +55,7 @@
             }
         }
     </style>
-@endsection
+@endpush
 
 @section('content')
     <section class="d-flex items-center bg-light-2">
@@ -57,7 +75,7 @@
                 <div class="col-auto">
                     <a href="{{ route('frontend.products.byCategory', $category->slug) }}"
                         class="text-14 text-blue-1 underline">
-                        Semua Produk & Layanan ({{ $category->name }})
+                        Semua Produk & Layanan
                     </a>
                 </div>
             </div>
@@ -150,15 +168,6 @@
                                                     <div class="text-14 text-light-1 ml-10">{{ $product->masa_berlaku }}
                                                     </div>
                                                 </div>
-                                                <div class="mt-5">
-                                                    <div class="fw-500">
-                                                        Start from <span class="text-blue-1">IDR
-                                                           Rp. {{ number_format($product->price_start, 0, ',', '.')  }}
-                                                             
-                                                        </span>
-                                                    </div>
-
-                                                </div>
                                             </div>
                                         </a>
                                     </div>
@@ -192,7 +201,7 @@
     </section>
 @endsection
 
-@section('custom_js')
+@push('custom_js')
     <script>
         function sharePage() {
             if (navigator.share) {
@@ -222,4 +231,4 @@
             }
         }
     </script>
-@endsection
+@endpush

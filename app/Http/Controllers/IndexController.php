@@ -18,8 +18,12 @@ class IndexController extends Controller
      * Display a listing of the resource.
      */
 public function index()
-{
-    $categories = ProductCategory::with('subcategories')->withCount('products')->get();
+{    
+    $categories = ProductCategory::with('subcategories')
+    ->withCount('products')
+    ->orderBy('sortir')
+    ->get()
+    ->groupBy('label');
     $subcategories = ProductSubcategory::select('id', 'name', 'slug')->get();
 
     // Ambil 4 produk terbaru untuk tab "All"
@@ -32,6 +36,7 @@ public function index()
             'id' => $product->id,
             'name' => $product->name,
             'slug' => $product->slug,
+            'description' => $product->description,
             'price_start' => $product->price_start,
             'thumbnail' => asset($product->thumbnail),
             'subcategory_slug' => $product->subcategory->slug ?? null,
@@ -48,6 +53,7 @@ public function index()
     $carousels = Carousel::all();
     $partners = Partner::all();
     $testimonials = Testimonial::where('is_published', true)->get();
+  
 
     return view('app.pages.index.index', compact(
         'categories',
@@ -90,58 +96,26 @@ public function getLatestProductsBySubcategory($slug)
 }
 
 
-public function product_layanan(){
-        $categories = ProductCategory::with('subcategories')
+public function product_layanan()
+{
+    $tourCategories = ProductCategory::with('subcategories')
         ->withCount('products')
+        ->where('label', 'tour')
         ->get();
-        return view('app.pages.products.categories', compact('categories'));
+
+    $pendukungCategories = ProductCategory::with('subcategories')
+        ->withCount('products')
+        ->where('label', 'pendukung_tour')
+        ->get();
+
+    return view('app.pages.products.categories', compact('tourCategories', 'pendukungCategories'));
 }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function privacyPolicy(){
+        return view ('app.pages.other.privacy');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+     public function termsCondition(){
+        return view ('app.pages.other.terms_condition');
     }
 }

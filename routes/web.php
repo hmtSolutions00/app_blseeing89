@@ -10,6 +10,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PromotionaVideoController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
@@ -33,7 +34,7 @@ Route::get('/produk-terbaru-by-subcategory/{slug}', [IndexController::class, 'ge
 
 // Route Glaeri Show
 Route::get('/galeries', [FrontendProdukLayananController::class, 'listGaleri'])->name('galeri.list');
-Route::get('/galeri/{slug}', [FrontendProdukLayananController::class, 'singleGaleri'])->name('galeri.single');
+Route::get('/galeri/', [FrontendProdukLayananController::class, 'singleGaleri'])->name('galeri.single');
 
 
 
@@ -62,7 +63,7 @@ Route::prefix('admin-panel')->name('admin-panel.')->middleware(['auth'])->group(
     Route::get('/get-subcategories/{categoryId}', [ProductController::class, 'getSubcategories'])->name('get-subcategories');
 
     Route::get('/get-products/{subcategoryId}', [ProductController::class, 'getProducts']);
-    
+
     // 2. Grup Rute untuk Produk
     Route::prefix('products')->name('products.')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
@@ -156,6 +157,16 @@ Route::prefix('admin-panel')->name('admin-panel.')->middleware(['auth'])->group(
         Route::put('/{id}', [GaleriController::class, 'update'])->name('update');
         Route::get('/delete/{id}', [GaleriController::class, 'destroy'])->name('destroy');
         Route::get('/image/{id}/delete', [GaleriController::class, 'deleteImage'])->name('image.delete');
+    });
+
+    Route::prefix('/promotional_video')->name('promotional_video.')->group(function () {
+        Route::get('/', [PromotionaVideoController::class, 'index'])->name('index');
+        Route::get('/create', [PromotionaVideoController::class, 'create'])->name('create');
+        Route::post('/', [PromotionaVideoController::class, 'store'])->name('store');
+        Route::get('/{id}/detail', [PromotionaVideoController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [PromotionaVideoController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [PromotionaVideoController::class, 'update'])->name('update');
+        Route::get('/delete/{id}', [PromotionaVideoController::class, 'destroy'])->name('destroy');
     });
 
     // Tambahkan rute admin lainnya di sini...

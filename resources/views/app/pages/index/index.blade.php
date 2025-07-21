@@ -37,7 +37,7 @@
             grid-auto-flow: column;
             grid-template-rows: repeat(2, 1fr);
             /* 2 baris
-      grid-template-rows: repeat(3, 1fr); /* jadi 3 baris */
+                              grid-template-rows: repeat(3, 1fr); /* jadi 3 baris */
             */ gap: 10px;
             width: max-content;
         }
@@ -76,13 +76,45 @@
     {{-- Kategori Produk dan layanan kami --}}
     @include('app.pages.index.categories')
     {{-- End Kategori Produk dan kayanan kami --}}
+    <section class="layout-pt-md layout-pb-lg">
+        <div data-anim-wrap class="container">
+            <div class="tabs -pills-2 js-tabs">
+                <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
+                    <div class="col-12">
+                        <div class="sectionTitle -md">
+                            <h2 class="sectionTitle__title">Video Promosi Produk</h2>
+                            <p class="sectionTitle__text mt-5 sm:mt-0">Temukan Video tentang Produk Terbaru Kami Disini</p>
+                        </div>
+                    </div>
+
+                    {{-- Tabs Subkategori --}}
+                    @foreach ($promoVideos as $video)
+                        <div class="col-12 col-lg-6 text-center">
+                            <video controls style="max-height: 500px;min-height: 500px;">
+                                <source src="/assets/video/{{ $video->path_video }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    @endforeach
+                    {{-- <div class="col-12 col-lg-6 text-center">
+                        <video controls style="max-height: 500px;min-height: 500px;">
+                            <source src="{{ asset('/assets/video/video_promosi.mp4') }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+    </section>
+
     @include('app.pages.index.products')
 
     <section class="layout-pt-lg layout-pb-lg bg-dark-3" id="testimonial_section">
         <div class="container">
             <div class="row y-gap-60">
                 <div class="col-xl-5 col-lg-6" style="align-content: center">
-                    <h2 class="text-30 text-white">Perjalanan Mereka,Inspirasi Anda.<br>Dipercaya oleh Ratusan Traveler.</h2>
+                    <h2 class="text-30 text-white">Perjalanan Mereka,Inspirasi Anda.<br>Dipercaya oleh Ratusan Traveler.
+                    </h2>
                     <p class="text-white mt-20">Kisah nyata dari para traveler yang telah menjelajahi dunia bersama
                         Blessing89 Tour & Travel.
                         Lihat bagaimana kami membantu menciptakan momen tak terlupakan di berbagai destinasi impian.</p>
@@ -167,45 +199,62 @@
         </div>
     </section>
 
-{{-- Galeri List --}}
-<section class="layout-pt-lg layout-pb-md">
-    <div data-anim-wrap class="container">
-        <div data-anim-child="slide-up delay-1" class="row">
-            <div class="col-auto">
-                <div class="sectionTitle -md">
-                    <h2 class="sectionTitle__title">Momen Tak Terlupakan</h2>
-                    <p class=" sectionTitle__text mt-5 sm:mt-0">
-                        Lihat kebahagiaan para traveler yang telah menjelajahi dunia bersama Blessing89 Tour Travel
-                    </p>
+    {{-- Galeri List --}}
+    <section class="layout-pt-lg layout-pb-md">
+        <div data-anim-wrap class="container">
+            <div data-anim-child="slide-up delay-1" class="row">
+                <div class="col-auto">
+                    <div class="sectionTitle -md">
+                        <h2 class="sectionTitle__title">Momen Tak Terlupakan</h2>
+                        <p class=" sectionTitle__text mt-5 sm:mt-0">
+                            Lihat kebahagiaan para traveler yang telah menjelajahi dunia bersama Blessing89 Tour Travel
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row y-gap-30 pt-40">
-            @foreach($galeriList as $index => $galeri)
-                <div data-anim-child="slide-up delay-{{ $index + 3 }}" class="col-lg-3 col-sm-6">
-                    {{-- Link ke halaman galeri show --}}
-                    <a href="{{ route('galeri.single', $galeri->slug) }}" class="blogCard -type-1 d-block">
-                        <div class="blogCard__image">
-                            <div class="ratio ratio-1:1 rounded-4 rounded-8">
-                                {{-- Thumbnail --}}
-                                <img class="img-ratio js-lazy" src="{{ asset($galeri->thumbnail) }}" data-src="{{ asset($galeri->thumbnail) }}" alt="{{ $galeri->judul }}">
+            <div class="row y-gap-30 pt-40">
+                @foreach ($galeriList as $index => $galeri)
+                    <div data-anim-child="slide-up delay-{{ $index + 3 }}" class="col-lg-3 col-sm-6">
+                        {{-- Link ke halaman galeri show --}}
+                        <a href="/{{ $galeri->path_items }}" class="blogCard -type-1 d-block">
+                            <div class="blogCard__image">
+                                <div class="rounded-4 rounded-8 text-center">
+                                    @if ($galeri->jenis_items == 'Gambar')
+                                        <img class="js-lazy" src="{{ asset($galeri->path_items) }}"
+                                            data-src="{{ asset($galeri->path_items) }}"
+                                            style="max-height: 300px;min-height: 300px;">
+                                    @else
+                                        <video class="js-lazy" controls
+                                            style="max-height: 300px;min-height: 300px;width: -webkit-fill-available;">
+                                            <source src="{{ $galeri->path_items }}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="mt-20">
-                            <h4 class="text-dark-1 text-18 fw-500">{{ $galeri->judul }}</h4>
-                            <div class="text-light-1 text-15 lh-14 mt-5">
-                                {{ \Carbon\Carbon::parse($galeri->created_at)->translatedFormat('F d, Y') }}
+                        </a>
+                    </div>
+                @endforeach
+                @if ($allGaleri > 3)
+                    <div data-anim-child="slide-up delay-{{ $index + 3 }}" class="col-lg-3 col-sm-6">
+                        {{-- Link ke halaman galeri show --}}
+                        @php
+                            $jlhSisa = $allGaleri - 3;
+                        @endphp
+                        <a href="{{ route('galeri.list') }}" class="blogCard -type-1 d-block">
+                            <div class="blogCard__image">
+                                <div
+                                    class="rounded-4 rounded-8 text-center bg-light-2"style="height:300px;align-content:center">
+                                    <h3 class="text-dark-3">Lihat Lainnya...{{ $jlhSisa }}+</h3>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-            @endforeach
+                        </a>
+                    </div>
+                @endif
+            </div>
         </div>
-    </div>
-</section>
-
+    </section>
 @endsection
 
 @section('custom_js')

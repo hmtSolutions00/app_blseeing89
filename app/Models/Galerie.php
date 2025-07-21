@@ -8,16 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Galerie extends Model
 {
      use HasFactory;
+    // protected $fillable = [
+    //     'judul',
+    //     'description',
+    //     'slug',
+    //     'thumbnail',
+    //     'meta_description',
+    //     'meta_keywords',
+    //     'meta_og_title',
+    //     'meta_og_description',
+    //     'meta_og_type',
+    // ];
+
     protected $fillable = [
-        'judul',
-        'description',
-        'slug',
-        'thumbnail',
-        'meta_description',
-        'meta_keywords',
-        'meta_og_title',
-        'meta_og_description',
-        'meta_og_type',
+        'path_items',
+        'jenis_items'
     ];
 
     public function imageGaleri()

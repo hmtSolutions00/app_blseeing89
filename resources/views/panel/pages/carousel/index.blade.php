@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="py-30 px-30 rounded-4 bg-white shadow-3 col-9" style="place-self: anchor-center;">
+            <div class="py-30 px-30 rounded-4 bg-white shadow-3 col-12" style="place-self: anchor-center;">
                 <div class="tabs -underline-2 js-tabs">
                     <div class="tabs__controls row x-gap-40 y-gap-10 lg:x-gap-20 js-tabs-controls" style="min-height:300px">
                         <table class="table table-3-border-bottom col-12" id="table-carousel">

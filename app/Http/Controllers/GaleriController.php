@@ -18,7 +18,7 @@ class GaleriController extends Controller
     public function index()
     {
         $galeris = Galerie::latest()->paginate(10);
-    return view('panel.pages.galerie.index', compact('galeris'));
+        return view('panel.pages.galeries.index', compact('galeris'));
     }
 
     /**
@@ -26,7 +26,7 @@ class GaleriController extends Controller
      */
     public function create()
     {
-        return view('panel.pages.galerie.create');
+        return view('panel.pages.galeries.create');
     }
 
     /**
@@ -35,63 +35,35 @@ class GaleriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'judul' => 'required|string|max:255',
-        'description' => 'required|string',
-        'thumbnail' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'images' => 'nullable|array|max:20',
-    ]);
-
-    DB::beginTransaction();
-
-    try {
-        // Simpan thumbnail
-        $thumbnailPath = null;
-        if ($request->hasFile('thumbnail')) {
-            $thumbnail = $request->file('thumbnail');
-            $thumbnailName = time() . '_' . uniqid() . '.' . $thumbnail->getClientOriginalExtension();
-            $thumbnail->move(public_path('uploads/galeries/thumbnail'), $thumbnailName);
-            $thumbnailPath = 'uploads/galeries/thumbnail/' . $thumbnailName;
-        }
-
-        // Slug unik
-        $slug = Str::slug($request->judul) . '-' . Str::uuid();
-
-        // Simpan galeri
-        $galeri = Galerie::create([
-            'judul' => $request->judul,
-            'description' => $request->description,
-            'slug' => $slug,
-            'thumbnail' => $thumbnailPath,
-            'meta_description' => $request->meta_description,
-            'meta_keywords' => $request->meta_keywords,
-            'meta_og_title' => $request->meta_og_title,
-            'meta_og_description' => $request->meta_og_description,
-            'meta_og_type' => $request->meta_og_type ?? 'website',
+            'path_items' => 'required',
+            'jenis_items' => 'required'
         ]);
 
-        // Simpan gambar galeri
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('uploads/galeries/images'), $imageName);
-                $imagePath = 'uploads/galeries/images/' . $imageName;
+        DB::beginTransaction();
 
-                ImageGalerie::create([
-                    'galeri_id' => $galeri->id,
-                    'image_url' => $imagePath,
-                ]);
+        try {
+            $itemPath = null;
+            if ($request->hasFile('path_items')) {
+                $item = $request->file('path_items');
+                $itemName = time() . '_' . uniqid() . '.' . $item->getClientOriginalExtension();
+                $item->move(public_path('uploads/galeries/'), $itemName);
+                $itemPath = 'uploads/galeries/' . $itemName;
             }
+
+            // Simpan galeri
+            $galeri = Galerie::create([
+                'path_items' => $itemPath,
+                'jenis_items' => $request->jenis_items,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('admin-panel.galeri.index')->with('success', 'Galeri berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()])->withInput();
         }
-
-        DB::commit();
-
-        return redirect()->route('admin-panel.galeri.index')->with('success', 'Galeri berhasil ditambahkan.');
-    } catch (\Exception $e) {
-        DB::rollBack();
-
-        return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()])->withInput();
-    }
     }
 
     /**
@@ -101,7 +73,7 @@ class GaleriController extends Controller
     {
         $galeri = Galerie::with('imageGaleri')->findOrFail($id);
 
-    return view('panel.pages.galerie.show', compact('galeri'));
+        return view('panel.pages.galeries.show', compact('galeri'));
     }
 
     /**
@@ -109,8 +81,8 @@ class GaleriController extends Controller
      */
     public function edit(string $id)
     {
-    $galeri = Galerie::with('imageGaleri')->findOrFail($id);
-    return view('panel.pages.galerie.edit', compact('galeri'));
+        $galeri = Galerie::with('imageGaleri')->findOrFail($id);
+        return view('panel.pages.galeries.edit', compact('galeri'));
     }
 
     /**
@@ -120,53 +92,26 @@ class GaleriController extends Controller
     {
         $galeri = Galerie::with('imageGaleri')->findOrFail($id);
 
-    $request->validate([
-        'judul' => 'required|string|max:255',
-        'description' => 'required|string',
-        'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
-    ]);
+        $request->validate([
+            'jenis_items' => 'required'
+        ]);
 
-    // Update data dasar (tanpa slug)
-    $galeri->judul = $request->judul;
-    $galeri->description = $request->description;
-    $galeri->meta_description = $request->meta_description;
-    $galeri->meta_keywords = $request->meta_keywords;
-    $galeri->meta_og_title = $request->meta_og_title;
-    $galeri->meta_og_description = $request->meta_og_description;
-    $galeri->meta_og_type = $request->meta_og_type;
+        // Update data dasar (tanpa slug)
+        $galeri->jenis_items = $request->jenis_items;
 
-    // Thumbnail baru
-    if ($request->hasFile('thumbnail')) {
-        // Hapus thumbnail lama
-        if ($galeri->thumbnail && file_exists(public_path($galeri->thumbnail))) {
-            unlink(public_path($galeri->thumbnail));
+        $itemPath = null;
+        if ($request->hasFile('path_items')) {
+            $item = $request->file('path_items');
+            $itemName = time() . '_' . uniqid() . '.' . $item->getClientOriginalExtension();
+            $item->move(public_path('uploads/galeries/'), $itemName);
+            $itemPath = 'uploads/galeries/' . $itemName;
+            $galeri->path_items = $itemPath;
         }
 
-        $thumbnail = $request->file('thumbnail');
-        $filename = time() . '_' . uniqid() . '.' . $thumbnail->getClientOriginalExtension();
-        $path = 'uploads/galeries/thumbnail/';
-        $thumbnail->move(public_path($path), $filename);
-        $galeri->thumbnail = $path . $filename;
-    }
 
-    $galeri->save();
+        $galeri->save();
 
-    // Upload gambar tambahan
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $image) {
-            $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $path = 'uploads/galeries/images/';
-            $image->move(public_path($path), $filename);
-
-            ImageGalerie::create([
-                'galeri_id' => $galeri->id,
-                'image_url' => $path . $filename,
-            ]);
-        }
-    }
-
-    return redirect()->route('admin-panel.galeri.index')->with('success', 'Galeri berhasil diperbarui.');
+        return redirect()->route('admin-panel.galeri.index')->with('success', 'Galeri berhasil diperbarui.');
     }
 
     /**
@@ -174,35 +119,28 @@ class GaleriController extends Controller
      */
     public function destroy(string $id)
     {
-       DB::transaction(function () use ($id) {
-        $galeri = Galerie::with('imageGaleri')->findOrFail($id);
+        DB::transaction(function () use ($id) {
+            $galeri = Galerie::with('imageGaleri')->findOrFail($id);
 
-        if ($galeri->thumbnail && File::exists(public_path($galeri->thumbnail))) {
-            File::delete(public_path($galeri->thumbnail));
-        }
-
-        foreach ($galeri->imageGaleri as $image) {
-            if ($image->image_url && File::exists(public_path($image->image_url))) {
-                File::delete(public_path($image->image_url));
+            if ($galeri->path_items && File::exists(public_path($galeri->path_items))) {
+                File::delete(public_path($galeri->path_items));
             }
-            $image->delete();
-        }
 
-        $galeri->delete();
-    });
+            $galeri->delete();
+        });
 
-    return redirect()->route('admin-panel.galeri.index')->with('success', 'Galeri berhasil dihapus.');
+        return redirect()->route('admin-panel.galeri.index')->with('success', 'Galeri berhasil dihapus.');
     }
     public function deleteImage($id)
-{
-    $image = ImageGalerie::findOrFail($id);
+    {
+        $image = ImageGalerie::findOrFail($id);
 
-    if ($image->image_url && file_exists(public_path($image->image_url))) {
-        unlink(public_path($image->image_url));
+        if ($image->path_items && file_exists(public_path($image->path_items))) {
+            unlink(public_path($image->path_items));
+        }
+
+        $image->delete();
+
+        return back()->with('success', 'Galeri berhasil dihapus.');
     }
-
-    $image->delete();
-
-    return back()->with('success', 'Gambar berhasil dihapus.');
-}
 }

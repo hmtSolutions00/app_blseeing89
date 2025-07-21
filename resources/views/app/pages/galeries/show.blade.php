@@ -9,8 +9,6 @@
                     <div class="col-auto">Beranda</div>
                     <div class="col-auto">></div>
                     <div class="col-auto">Galeri</div>
-                    <div class="col-auto">></div>
-                    <div class="col-auto">{{ $galeri->judul }}</div>
                 </div>
             </div>
         </div>

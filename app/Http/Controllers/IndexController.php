@@ -8,6 +8,7 @@ use App\Models\Partner;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductSubcategory;
+use App\Models\PromotionalVideo;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
 
@@ -39,9 +40,11 @@ public function index()
     });
     // ✅ Ambil 4 galeri terbaru
     $galeriList = Galerie::orderBy('created_at', 'desc')
-        ->take(4)
+        ->take(3)
         ->get();
+    $allGaleri = Galerie::count();
 
+    $promoVideos = PromotionalVideo::where('is_show', true)->get();
     $carousels = Carousel::all();
     $partners = Partner::all();
     $testimonials = Testimonial::where('is_published', true)->get();
@@ -53,6 +56,8 @@ public function index()
         'partners',
         'testimonials',
         'latestProducts',
+        'promoVideos',
+        'allGaleri',
         'galeriList' // ← kirim ke view
     ));
 }

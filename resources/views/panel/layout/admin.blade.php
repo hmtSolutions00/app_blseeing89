@@ -28,6 +28,8 @@
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <title>Admin Blessing89</title>
+<link rel="icon" type="image/png" sizes="80x80" href="/assets/images/logo_light.ico">
+
 </head>
 
 <body data-barba="wrapper">

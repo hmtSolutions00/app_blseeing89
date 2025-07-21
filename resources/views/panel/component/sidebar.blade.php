@@ -2,11 +2,13 @@
     <div class="sidebar -dashboard">
 
         <div class="sidebar__item">
-            <div class="sidebar__button @if(Request::routeIs('admin-panel.products.*')) -is-active @endif">
+            <div class="sidebar__button @if (Request::routeIs('admin-panel.products.*')) -is-active @endif">
                 {{-- Menggunakan named route untuk href --}}
                 <a href="{{ route('admin-panel.products.index') }}" class="d-flex items-center text-15 lh-1 fw-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-15 icon-menu" width="24px" height="24px">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6 mr-15 icon-menu" width="24px" height="24px">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
                     </svg>
                     Produk & Layanan
                 </a>
@@ -14,11 +16,13 @@
         </div>
 
         <div class="sidebar__item">
-            <div class="sidebar__button @if(Request::routeIs('admin-panel.categories.*')) -is-active @endif">
+            <div class="sidebar__button @if (Request::routeIs('admin-panel.categories.*')) -is-active @endif">
                 {{-- Menggunakan named route untuk href --}}
                 <a href="{{ route('admin-panel.categories.index') }}" class="d-flex items-center text-15 lh-1 fw-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-15 icon-menu" width="24px" height="24px">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.529 11.121A5.75 5.75 0 0 1 15 12.75h1.25a.75.75 0 0 0 .75-.75V7.5C17 6.672 16.328 6 15.5 6H7.75c-.828 0-1.5.672-1.5 1.5v3.25a.75.75 0 0 0 .75.75H8.75ZM20.25 12.75c0 .414-.336.75-.75.75h-.75a.75.75 0 0 1-.75-.75V8.25c0-.414.336-.75.75-.75h.75c.414 0 .75.336.75.75v4.5ZM13.5 12.75h.75a.75.75 0 0 0 .75-.75V7.5c0-.414-.336-.75-.75-.75h-.75a.75.75 0 0 0-.75.75v4.5c0 .414.336.75.75.75Z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6 mr-15 icon-menu" width="24px" height="24px">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9.529 11.121A5.75 5.75 0 0 1 15 12.75h1.25a.75.75 0 0 0 .75-.75V7.5C17 6.672 16.328 6 15.5 6H7.75c-.828 0-1.5.672-1.5 1.5v3.25a.75.75 0 0 0 .75.75H8.75ZM20.25 12.75c0 .414-.336.75-.75.75h-.75a.75.75 0 0 1-.75-.75V8.25c0-.414.336-.75.75-.75h.75c.414 0 .75.336.75.75v4.5ZM13.5 12.75h.75a.75.75 0 0 0 .75-.75V7.5c0-.414-.336-.75-.75-.75h-.75a.75.75 0 0 0-.75.75v4.5c0 .414.336.75.75.75Z" />
                     </svg>
                     Kategori Produk
                 </a>
@@ -26,11 +30,14 @@
         </div>
 
         <div class="sidebar__item">
-            <div class="sidebar__button @if(Request::routeIs('admin-panel.sub_categories.*')) -is-active @endif">
+            <div class="sidebar__button @if (Request::routeIs('admin-panel.sub_categories.*')) -is-active @endif">
                 {{-- Menggunakan named route untuk href --}}
-                <a href="{{ route('admin-panel.sub_categories.index') }}" class="d-flex items-center text-15 lh-1 fw-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-15 icon-menu" width="24px" height="24px">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.008v.008H3.75V6.75ZM3.75 12h.008v.008H3.75V12ZM3.75 17.25h.008v.008H3.75V17.25Z" />
+                <a href="{{ route('admin-panel.sub_categories.index') }}"
+                    class="d-flex items-center text-15 lh-1 fw-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6 mr-15 icon-menu" width="24px" height="24px">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.008v.008H3.75V6.75ZM3.75 12h.008v.008H3.75V12ZM3.75 17.25h.008v.008H3.75V17.25Z" />
                     </svg>
                     Sub Kategori Produk
                 </a>
@@ -56,11 +63,10 @@
         <div class="sidebar__item">
             <div class="sidebar__button">
                 <a href="/admin-panel/user" class="d-flex items-center text-15 lh-1 fw-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" class="size-6 mr-15 icon-menu" version="1.1"
-                        id="_x32_" width="24px" height="24px" viewBox="0 0 512 512">
+                    <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" class="size-6 mr-15 icon-menu"
+                        version="1.1" id="_x32_" width="24px" height="24px" viewBox="0 0 512 512">
                         <rect x="3" y="5" width="18" height="14" rx="2" ry="2" />
-                        <rect x="6" y="8" width="12" height="8" rx="1" ry="1"
-                            fill="#FFF" />
+                        <rect x="6" y="8" width="12" height="8" rx="1" ry="1" fill="#FFF" />
                         <path class="st0" fill="#2196F3"
                             d="M147.57,320.188c-0.078-0.797-0.328-1.531-0.328-2.328v-6.828c0-3.25,0.531-6.453,1.594-9.5   c0,0,17.016-22.781,25.063-49.547c-8.813-18.594-16.813-41.734-16.813-64.672c0-5.328,0.391-10.484,0.938-15.563   c-11.484-12.031-27-18.844-44.141-18.844c-35.391,0-64.109,28.875-64.109,73.75c0,35.906,29.219,74.875,29.219,74.875   c1.031,3.047,1.563,6.25,1.563,9.5v6.828c0,8.516-4.969,16.266-12.719,19.813l-46.391,18.953   C10.664,361.594,2.992,371.5,0.852,383.156l-0.797,10.203c-0.406,5.313,1.406,10.547,5.031,14.438   c3.609,3.922,8.688,6.125,14.016,6.125H94.93l3.109-39.953l0.203-1.078c3.797-20.953,17.641-38.766,36.984-47.672L147.57,320.188z" />
                         <path class="st0" fill="#2196F3"
@@ -75,7 +81,7 @@
         <div class="sidebar__item">
             <div class="sidebar__button">
                 <a href="/admin-panel/about-us" class="d-flex items-center text-15 lh-1 fw-500">
-                   <i class="fa-solid fa-city fa-lg mr-15 text-center" style="width: 24px"></i>
+                    <i class="fa-solid fa-city fa-lg mr-15 text-center" style="width: 24px"></i>
                     About Us
                 </a>
             </div>
@@ -83,7 +89,7 @@
         <div class="sidebar__item">
             <div class="sidebar__button">
                 <a href="/admin-panel/partner" class="d-flex items-center text-15 lh-1 fw-500">
-                   <i class="fa-solid fa-handshake fa-lg mr-15 text-center" style="width: 24px"></i>
+                    <i class="fa-solid fa-handshake fa-lg mr-15 text-center" style="width: 24px"></i>
                     Partner
                 </a>
             </div>
@@ -91,16 +97,24 @@
         <div class="sidebar__item">
             <div class="sidebar__button">
                 <a href="/admin-panel/testimonial" class="d-flex items-center text-15 lh-1 fw-500">
-                   <i class="fa-solid fa-comments fa-lg mr-15 text-center" style="width: 24px"></i>
+                    <i class="fa-solid fa-comments fa-lg mr-15 text-center" style="width: 24px"></i>
                     Testimonial
                 </a>
             </div>
         </div>
-                <div class="sidebar__item">
+        <div class="sidebar__item">
             <div class="sidebar__button">
-                <a href="{{route('admin-panel.galeri.index')}}" class="d-flex items-center text-15 lh-1 fw-500">
-                   <i class="fa-solid fa-camera-retro fa-lg mr-15 text-center" style="width: 24px"></i>
+                <a href="{{ route('admin-panel.galeri.index') }}" class="d-flex items-center text-15 lh-1 fw-500">
+                    <i class="fa-solid fa-camera-retro fa-lg mr-15 text-center" style="width: 24px"></i>
                     Galeri
+                </a>
+            </div>
+        </div>
+        <div class="sidebar__item">
+            <div class="sidebar__button">
+                <a href="{{ route('admin-panel.promotional_video.index') }}" class="d-flex items-center text-15 lh-1 fw-500">
+                    <i class="fa-solid fa-file-video fa-lg mr-15 text-center" style="width: 24px"></i>
+                    Video Promosi
                 </a>
             </div>
         </div>

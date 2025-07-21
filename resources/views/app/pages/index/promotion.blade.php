@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="col-12 col-lg-6 text-center">
-                    <video controls style="max-height: 400px; min-height: 400px;">
+                    <video controls style="max-height: 500px; min-height: 500px;">
                         <source src="{{ asset('/uploads/video/promo_tour_blessing89tourtravel.mp4') }}" type="video/mp4">
                         Browser Anda tidak mendukung tag video.
                     </video>
